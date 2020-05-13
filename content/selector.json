@@ -1,0 +1,68 @@
+{
+  "conditions": [{
+    "name": "quarantine",
+    "prefix": "never have i ever",
+    "postfix": "during quarantine",
+    "list": [{
+      "condition": "watched netflix"
+    }, {
+      "condition": "worked out in the last month"
+    }, {
+      "condition": "played an online game (board game, video game, etc.)"
+    }, {
+      "condition": "finished an entire season of a show in the last month"
+    }, {
+      "condition": "read an entire book"
+    }, {
+      "condition": "cooked a meal"
+    }, {
+      "condition": "went to the groceries"
+    }, {
+      "condition": "ordered delivery / takeout"
+    }, {
+      "condition": "tried to pick up a new hobby"
+    }, {
+      "condition": "gotten tipsy"
+    }, {
+      "condition": "gotten high"
+    }, {
+      "condition": "done yoga"
+    }, {
+      "condition": "watched bachelor"
+    }, {
+      "condition": "watched love is blind"
+    }, {
+      "condition": "purchased something from Amazon"
+    }, {
+      "condition": "traded stocks"
+    }, {
+      "condition": "freestyle"
+    }]
+  }, {
+    "name": "morning",
+    "prefix": "never have i ever",
+    "postfix": "this morning",
+    "list": [{
+      "condition": "had an alarm"
+    }, {
+      "condition": "did not have breakfast"
+    }, {
+      "condition": "freestyle"
+    }, {
+      "condition": "checked your work emails"
+    }]
+  }, {
+    "name": "random",
+    "prefix": "do if",
+    "postfix": "",
+    "list": [{
+      "condition": "your full name has a repeated letter"
+    }, {
+      "condition": "you drank last night"
+    }, {
+      "condition": "freestyle"
+    }, {
+      "condition": "checked your work emails this morning"
+    }]
+  }]
+}

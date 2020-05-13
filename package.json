@@ -1,0 +1,23 @@
+{
+  "name": "faker",
+  "version": "1.0.0",
+  "description": "lol",
+  "main": "index.js",
+  "author": "andyzg",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jquery": "^3.3.34",
+    "@types/lodash": "^4.14.149",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  },
+  "dependencies": {
+    "jquery": "^3.4.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-redux": "^7.1.3",
+    "redux": "^4.0.5"
+  }
+}

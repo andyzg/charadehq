@@ -1,0 +1,43 @@
+{
+  "warmup": [{
+    "text": "Do arm spins for 15 seconds on each side"
+  }, {
+    "text": "Do kicks for 15 seconds on each side"
+  }, {
+    "text": "Do wrist spins for 15 seconds"
+  }, {
+    "text": "Do jumping jacks for 1 minute"
+  }, {
+    "text": "Do butt kicks for 1 minute"
+  }, {
+    "text": "Do high knees for 1 minute"
+  }],
+  "workout": [{
+    "text": "Do 5 burpees"
+  }, {
+    "text": "Do 5 pistol squats per leg"
+  }, {
+    "text": "Do 15 mountain climbers"
+  }, {
+    "text": "Do 10 pushups"
+  }, {
+    "text": "Do 10 crunches"
+  }, {
+    "text": "Do 10 leg raises"
+  }, {
+    "text": "Do 10 lunges"
+  }, {
+    "text": "Do 10 bicycles on each side"
+  }, {
+    "text": "Do 10 squats"
+  }],
+  "ending": [{
+    "text": "Plank for 30 seconds"
+  }, {
+    "text": "Plank for 30 seconds on each side"
+  }, {
+    "text": "Chair on the wall for 30 seconds"
+  }, {
+    "text": "Do the flutter kick for 30 seconds"
+  }]
+}
