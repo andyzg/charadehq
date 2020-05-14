@@ -9,6 +9,12 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+var redis = require('redis');
+var client = redis.createClient(); //creates a new client
+client.on('connect', function() {
+    console.log('connected to redis');
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
