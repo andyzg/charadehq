@@ -15,6 +15,11 @@ client.on('connect', function() {
     console.log('connected to redis');
 });
 
+var room = require('./room')(client);
+room.generateRoom(null, function() {
+  room.getRooms((a, reply) => { console.log(reply); });
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
