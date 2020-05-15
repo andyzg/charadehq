@@ -18,7 +18,14 @@ module.exports = function(client) {
   }
 
   function getRooms(cb) {
-    return client.smembers(ROOM_KEY, cb);
+    client.smembers(ROOM_KEY, cb);
+  }
+
+  function roomExists(roomId, cb) {
+    console.log(roomId);
+    client.sismember(ROOM_KEY, roomId, (err, reply) => {
+      cb(reply === 1);
+    });
   }
 
   function clearRooms(cb) {
@@ -33,12 +40,14 @@ module.exports = function(client) {
   function generateRoom(roomId, cb) {
     let rooms = getRooms((err, reply) => {
       let id = roomId ? roomId : makeid(8);
-      addRoom(id, cb);
+      addRoom(id);
+      cb(id);
     });
   }
 
   return {
     getRooms,
-    generateRoom
+    generateRoom,
+    roomExists
   }
 }

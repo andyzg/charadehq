@@ -20,7 +20,8 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
-var realtime = require('../realtime')(server);
+var sc = require('../socket-connection');
+sc.setIo(server)
 
 /**
  * Listen on provided port, on all network interfaces.

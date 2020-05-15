@@ -3,20 +3,15 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var client = require('./redis-client').getClient();
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
 
-var redis = require('redis');
-var client = redis.createClient(); //creates a new client
-client.on('connect', function() {
-    console.log('connected to redis');
-});
-
 var room = require('./room')(client);
-room.generateRoom(null, function() {
+room.generateRoom(null, function(roomId) {
   room.getRooms((a, reply) => { console.log(reply); });
 });
 
