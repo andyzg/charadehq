@@ -22,7 +22,7 @@ module.exports = function(client) {
   }
 
   function roomExists(roomId, cb) {
-    console.log(roomId);
+    console.log('room id', roomId);
     client.sismember(ROOM_KEY, roomId, (err, reply) => {
       cb(reply === 1);
     });
@@ -34,14 +34,15 @@ module.exports = function(client) {
 
   // Assume that the roomId is valid
   function addRoom(roomId, cb) {
+    console.log('Addding room id: ', roomId);
     client.sadd(ROOM_KEY, roomId, cb)
   }
 
   function generateRoom(roomId, cb) {
+    console.log('Generating room with: ', roomId);
     let rooms = getRooms((err, reply) => {
       let id = roomId ? roomId : makeid(8);
-      addRoom(id);
-      cb(id);
+      addRoom(id, cb);
     });
   }
 

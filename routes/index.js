@@ -17,9 +17,11 @@ router.get('/room/:room', function(req, res, next) {
   // If the room doesn't exist, then create the room
   if (req.params.room) {
     roomState.roomExists(req.params.room, (resp) => {
-      console.log(resp);
+      console.log('Response for room exist: ', resp);
       if (!resp) {
-        roomClient.createRoom(socketClient.getIo(), req.params.room);
+        roomState.generateRoom(req.params.room, (err, id) => {
+          console.log("Done generating room with ", id);
+        });
       }
     })
   }

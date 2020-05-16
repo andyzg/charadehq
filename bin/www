@@ -22,6 +22,8 @@ app.set('port', port);
 var server = http.createServer(app);
 var sc = require('../socket-connection');
 sc.setIo(server)
+// TODO: Remove
+require('../room-connection').createRoom(sc.getIo(), 'room');
 
 /**
  * Listen on provided port, on all network interfaces.

@@ -3,6 +3,14 @@ extends ../layout
 block content
   h1= title
   p Welcome to #{title}
+  form(id="message-box")
+    label(for="lname") Message
+    br
+    input(type="text" id="lname" name="lname" value="Doe")
+    br
+    input(type="submit" value="Submit")
+
+  ul(id='chat-box')
 
   script
     include ../../public/javascripts/script.js

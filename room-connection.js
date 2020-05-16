@@ -1,16 +1,26 @@
 module.exports = {
   createRoom: (io, roomName) => {
-    console.log('Creating room called ', roomName);
-    let connection = io.of(roomName);
+    console.log('Creating room called', roomName);
+    console.log(io.eventNames());
 
     io.on('connect', (socket) => {
-      console.log('a user connected');
-      socket.on('disconnect', () => {
-        console.log('user disconnected');
-      });
+      console.log(socket.id);
+      function onHello(data) {
+        console.log('yeeeeee', data);
+        socket.emit('chat-message', data);
+      }
 
-      socket.on('hello', (data) => {
-        console.log(data);
+      socket.join(roomName, (err) => {
+        if (err) { console.log(err); }
+        console.log('a user connected');
+        socket.on('disconnect', () => {
+          console.log('user disconnected');
+
+          socket.removeListener('hello', onHello);
+          socket.disconnect();
+        });
+
+        socket.on('hello', onHello);
       });
     });
   }
