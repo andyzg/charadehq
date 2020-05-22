@@ -9,6 +9,7 @@ $(document).ready(() => {
     e.preventDefault();
     console.log('emitting...');
     socket.emit('hello', 'world');
+    socket.emit('message', $('#message').val());
   });
 
 

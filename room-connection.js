@@ -3,9 +3,13 @@ module.exports = {
     io.on('connect', (socket) => {
       console.log(socket.id);
 
+      function onMessage(data) {
+        io.to('room').emit('chat-message', data);
+      }
+
       function onHello(data) {
         console.log('hello');
-        io.to('room').emit('chat-message', data);
+        io.to('room').emit('test', data);
       }
 
       // TODO: Cleanup
@@ -20,6 +24,8 @@ module.exports = {
         });
 
         socket.on('hello', onHello);
+
+        socket.on('message', onMessage);
       });
     });
   }
