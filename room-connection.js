@@ -4,9 +4,8 @@ module.exports = {
       console.log(socket.id);
 
       function onHello(data) {
-        console.log('yeeeeee', data);
-        console.log('Clients: ', io.sockets.sockets);
-        socket.emit('chat-message', data);
+        console.log('hello');
+        io.to('room').emit('chat-message', data);
       }
 
       // TODO: Cleanup
