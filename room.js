@@ -19,6 +19,11 @@ module.exports = function(client) {
      return result;
   }
 
+  function getRoom(socketId, cb) {
+    console.log(socketId);
+    client.get(SOCKET_TO_ROOM_KEY, socketId, cb);
+  }
+
   function getRooms(cb) {
     client.smembers(ROOM_KEY, cb);
   }
@@ -31,6 +36,10 @@ module.exports = function(client) {
   }
 
   function clearRooms(cb) {
+    client.del(ROOM_KEY, cb);
+  }
+
+  function clearConnections(cb) {
     client.del(ROOM_KEY, cb);
   }
 
@@ -48,15 +57,23 @@ module.exports = function(client) {
     });
   }
 
-  function addConnection(socketId, cb) {
-    client.sadd(SOCKET_TO_ROOM_KEY, socketId, cb)
+  function addConnection(socketId, r, cb) {
+    console.log('Add connection: ', socketId);
+    client.hmset(SOCKET_TO_ROOM_KEY, socketId, r, cb)
+  }
+
+  function deleteConnection(socketId, cb) {
+    console.log('Delete connection: ', socketId);
+    client.hdel(SOCKET_TO_ROOM_KEY, socketId, cb)
   }
 
   return {
     getRooms,
+    getRoom,
     clearRooms,
     generateRoom,
     roomExists,
-    addConnection
+    addConnection,
+    deleteConnection
   }
 }

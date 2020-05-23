@@ -7,23 +7,29 @@ module.exports = {
       var r = socket.request.headers.referer.split('/').pop();
       r = r.split('?')[0];
 
-      room.addConnection(socket.id, r);
+      room.addConnection(socket.id, r, (err, reply) => {
+        console.log('Added connection: ', reply);
+      });
 
       function onMessage(data) {
-        io.to('room').emit('chat-message', data);
+        room.getRoom(socket.id, (err, reply) => {
+          console.log('reply: ', reply);
+          io.to(r).emit('chat-message', data);
+        });
       }
 
       function onHello(data) {
         console.log('hello');
-        io.to('room').emit('test', data);
+        io.to(r).emit('test', data);
       }
 
       // TODO: Cleanup
-      socket.join('room' , (err) => {
+      socket.join(r, (err) => {
         if (err) { console.log(err); }
-        console.log('a user connected');
+        console.log('a user connected to ', r);
         socket.on('disconnect', () => {
           console.log('user disconnected');
+          room.deleteConnection(socket.id);
 
           socket.removeListener('hello', onHello);
           socket.disconnect();
