@@ -11,9 +11,6 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 var room = require('./room')(client);
-room.generateRoom(null, function(roomId) {
-  room.getRooms((a, reply) => { console.log(reply); });
-});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

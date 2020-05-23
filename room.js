@@ -2,10 +2,12 @@ const DEV_PREFIX = 'DEV:'
 const PROD_PREFIX = 'PROD:'
 
 const ACTIVE_ROOMS = 'active-rooms';
+const SOCKET_TO_ROOM = 'socket-to-room';
 
 module.exports = function(client) {
 
   let ROOM_KEY = DEV_PREFIX + ACTIVE_ROOMS;
+  let SOCKET_TO_ROOM_KEY = DEV_PREFIX + SOCKET_TO_ROOM;
 
   function makeid(length) {
      var result           = '';
@@ -22,14 +24,14 @@ module.exports = function(client) {
   }
 
   function roomExists(roomId, cb) {
-    console.log('room id', roomId);
+    console.log('Checking if room id exists: ', roomId);
     client.sismember(ROOM_KEY, roomId, (err, reply) => {
       cb(reply === 1);
     });
   }
 
   function clearRooms(cb) {
-    clients.del(ROOM_KEY, cb);
+    client.del(ROOM_KEY, cb);
   }
 
   // Assume that the roomId is valid
@@ -46,9 +48,15 @@ module.exports = function(client) {
     });
   }
 
+  function addConnection(socketId, cb) {
+    client.sadd(SOCKET_TO_ROOM_KEY, socketId, cb)
+  }
+
   return {
     getRooms,
+    clearRooms,
     generateRoom,
-    roomExists
+    roomExists,
+    addConnection
   }
 }

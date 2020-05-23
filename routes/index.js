@@ -12,8 +12,6 @@ router.get('/', function(req, res, next) {
 
 router.get('/room/:room', function(req, res, next) {
 
-  console.log(Object.keys(socketClient.getIo().nsps));
-  console.log(req.params.room);
   // If the room doesn't exist, then create the room
   if (req.params.room) {
     roomState.roomExists(req.params.room, (resp) => {
