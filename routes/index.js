@@ -23,7 +23,7 @@ router.get('/room/:room', function(req, res, next) {
       }
     })
   }
-  res.render('room/room', { title: req.params.room });
+  res.render('room/index', { title: req.params.room });
 });
 
 module.exports = router;
