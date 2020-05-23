@@ -19,6 +19,11 @@ module.exports = function(client) {
      return result;
   }
 
+  function generateRoomId(length) {
+    length = length ? length : 8;
+    return makeid(length);
+  }
+
   function getRoom(socketId, cb) {
     console.log(socketId);
     client.get(SOCKET_TO_ROOM_KEY, socketId, cb);
@@ -72,6 +77,7 @@ module.exports = function(client) {
     getRoom,
     clearRooms,
     generateRoom,
+    generateRoomId,
     roomExists,
     addConnection,
     deleteConnection

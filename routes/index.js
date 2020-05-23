@@ -7,7 +7,10 @@ var roomState = require('../room')(client.getClient());
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  var roomId = roomState.generateRoomId();
+  roomState.generateRoom(roomId, (err, id) => {
+    res.redirect('/room/' + roomId);
+  });
 });
 
 router.get('/room/:room', function(req, res, next) {
