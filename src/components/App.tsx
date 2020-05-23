@@ -5,8 +5,7 @@ import Nav from './Nav'
 
 const App = () => (
   <div id="container" className="pure-g">
-    <Nav />
-    <ContentContainer />
+    "Whats up"
   </div>
 )
 
