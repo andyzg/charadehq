@@ -23,9 +23,9 @@ class ChatBox extends React.Component<any, any> {
 
   render() {
     let messageElements = []
-    for (let i of this.props.messages) {
+    for (let i = 0; i < this.props.messages.length; i++) {
       messageElements.push(
-        <li> {i} </li>
+        <li key={i}> {this.props.messages[i]} </li>
       )
     }
 

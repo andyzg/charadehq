@@ -4,12 +4,14 @@ const PROD_PREFIX = 'PROD:'
 const ACTIVE_ROOMS = 'active-rooms';
 const SOCKET_TO_ROOM = 'socket-to-room';
 const SOCKET_TO_NAME = 'socket-to-name';
+const UUID_TO_SOCKET = 'uuid-to-socket';
 
 module.exports = function(client) {
 
   let ROOM_KEY = DEV_PREFIX + ACTIVE_ROOMS;
   let SOCKET_TO_ROOM_KEY = DEV_PREFIX + SOCKET_TO_ROOM;
   let SOCKET_TO_NAME_KEY = DEV_PREFIX + SOCKET_TO_NAME;
+  let UUID_TO_SOCKET_KEY = DEV_PREFIX + UUID_TO_SOCKET;
 
   function makeid(length) {
      var result           = '';
@@ -72,6 +74,11 @@ module.exports = function(client) {
     client.hmset(SOCKET_TO_NAME_KEY, socketId, name, cb)
   }
 
+  function setUUID(uuid, socketId, cb) {
+    console.log('Setting the UUID to be ', uuid, ' to ', socketId);
+    client.hmset(UUID_TO_SOCKET_KEY, uuid, socketId, cb)
+  }
+
   function getParticipantNames(socketIds, cb) {
     client.hmget(SOCKET_TO_NAME_KEY, socketIds, cb)
   }
@@ -86,6 +93,7 @@ module.exports = function(client) {
     addConnection,
     deleteConnection,
     setName,
-    getParticipantNames
+    getParticipantNames,
+    setUUID
   }
 }

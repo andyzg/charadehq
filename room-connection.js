@@ -42,6 +42,10 @@ module.exports = {
         refreshParticipants();
       }
 
+      function setUUID(uuid) {
+        db.setUUID(uuid, socket.id);
+      }
+
       function refreshParticipants() {
         let socketIds = Object.keys(io.sockets.adapter.rooms[r].sockets)
         db.getParticipantNames(socketIds, (err, reply) => {
@@ -56,8 +60,9 @@ module.exports = {
 
         // TODO: Pull client data such as names and socket ID. Do not pull any
         // score since that should be stored on backend
-        socket.emit('get-name', (data) => {
-          setName(data);
+        socket.emit('get-profile', (data) => {
+          setName(data.name);
+          setUUID(data.uuid);
         });
 
         // Events
@@ -66,6 +71,7 @@ module.exports = {
         socket.on('message', onMessage);
         socket.on('get-participants', getParticipants);
         socket.on('set-name', setName);
+        socket.on('set-uuid', setUUID);
       });
     });
   }

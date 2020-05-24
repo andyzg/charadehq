@@ -8,6 +8,7 @@ let socket = io('localhost:3000/')
 console.log('Created a socket!!!');
 socket.on('connect', () => {
 
+  profile.setUUID();
   socket.on('get-participants', (data) => {
     console.log('get part: ', data);
   });
@@ -17,9 +18,12 @@ socket.on('connect', () => {
     store.dispatch(refreshParticipants(data))
   });
 
-  socket.on('get-name', (cb) => {
-    console.log('get my name!');
-    cb(profile.getName());
+  socket.on('get-profile', (cb) => {
+    console.log('get my profile!');
+    cb({
+      name: profile.getName(),
+      uuid: profile.getUUID(),
+    });
   });
 
   socket.on('message', (data) => {
