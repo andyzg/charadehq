@@ -3,11 +3,13 @@ const PROD_PREFIX = 'PROD:'
 
 const ACTIVE_ROOMS = 'active-rooms';
 const SOCKET_TO_ROOM = 'socket-to-room';
+const SOCKET_TO_NAME = 'socket-to-name';
 
 module.exports = function(client) {
 
   let ROOM_KEY = DEV_PREFIX + ACTIVE_ROOMS;
   let SOCKET_TO_ROOM_KEY = DEV_PREFIX + SOCKET_TO_ROOM;
+  let SOCKET_TO_NAME_KEY = DEV_PREFIX + SOCKET_TO_NAME;
 
   function makeid(length) {
      var result           = '';
@@ -72,6 +74,11 @@ module.exports = function(client) {
     client.hdel(SOCKET_TO_ROOM_KEY, socketId, cb)
   }
 
+  function setName(socketId, name, cb) {
+    console.log('Set name ', socketId, name);
+    client.hmset(SOCKET_TO_NAME_KEY, socketId, name, cb)
+  }
+
   return {
     getRooms,
     getRoom,
@@ -80,6 +87,7 @@ module.exports = function(client) {
     generateRoomId,
     roomExists,
     addConnection,
-    deleteConnection
+    deleteConnection,
+    setName
   }
 }

@@ -1,3 +1,6 @@
+export const SET_NAME = 'SET_NAME'
+
+
 export const clickWarmup = () => ({
   type: 'WARMUP',
 })
@@ -22,4 +25,9 @@ export const switchPacks = stage => ({
 
 export const switchIndices = () => ({
   type: 'SWITCH_INDICES',
+})
+
+export const setName = (name) => ({
+  type: SET_NAME,
+  name
 })

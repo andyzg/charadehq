@@ -17,8 +17,8 @@ jquery.get('https://raw.githubusercontent.com/andyzg/doif/master/content/selecto
   store.dispatch(loadConditions(d['conditions']))
 })
 
-import socket from './socket-connection'
-socket;
+// import socket from './socket-connection'
+// socket;
 import profile from './profile'
 profile;
 

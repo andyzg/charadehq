@@ -1,5 +1,5 @@
 import { applyMiddleware } from 'redux'
-import sheets from './sheets'
+import profile from './profile'
 
 
-export default applyMiddleware(sheets)
+export default applyMiddleware(profile)

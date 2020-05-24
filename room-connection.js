@@ -33,7 +33,10 @@ module.exports = {
         // });
       }
 
-      // TODO: Cleanup
+      function setName(name) {
+        room.setName(socket.id, name);
+      }
+
       socket.join(r, (err) => {
         if (err) { console.log(err); }
 
@@ -51,6 +54,7 @@ module.exports = {
         socket.on('hello', onHello);
         socket.on('message', onMessage);
         socket.on('get-participants', getParticipants);
+        socket.on('set-name', setName);
       });
     });
   }

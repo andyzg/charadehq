@@ -4,7 +4,7 @@ $(document).ready(() => {
 
   // // EVENT LISTENERS
 
-  // // Send message
+  // Send message
   // $('#message-box').submit((e) => {
   //   e.preventDefault();
   //   console.log('emitting...');
