@@ -20,7 +20,6 @@ const content = (state = {}, action) => {
       if (!exercises) {
         exercises = []
       }
-      console.log(state)
       return {
         "exercises": exercises,
         "conditions": action.conditions,

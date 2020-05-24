@@ -1,11 +1,11 @@
 import React from 'react'
-import Footer from './Footer'
+import ChatBox from './ChatBox'
 import ContentContainer from '../containers/ContentContainer'
 import Nav from './Nav'
 
 const App = () => (
   <div id="container" className="pure-g">
-    "Whats up"
+    <ChatBox />
   </div>
 )
 

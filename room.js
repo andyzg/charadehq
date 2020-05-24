@@ -26,7 +26,7 @@ module.exports = function(client) {
 
   function getRoom(socketId, cb) {
     console.log(socketId);
-    client.get(SOCKET_TO_ROOM_KEY, socketId, cb);
+    client.hmget(SOCKET_TO_ROOM_KEY, socketId, cb);
   }
 
   function getRooms(cb) {
