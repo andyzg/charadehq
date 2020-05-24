@@ -15,4 +15,9 @@ if (!name) {
   Cookies.set('name', makeid(8), { expires: 7 })
 }
 
-export default null
+export default {
+  getName: () => {
+    return Cookies.get('name');
+  }
+}
+

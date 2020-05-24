@@ -4,9 +4,8 @@ import { Participant } from '../models/Participant'
 
 const participants = (state: { [key: string]: Participant } = {}, action) => {
   switch (action.type) {
-    case 'ADD_PARTICIPANTS':
-      return action.participants;
     case REFRESH_PARTICIPANTS:
+      console.log(REFRESH_PARTICIPANTS, action);
       return action.participants;
     default:
       return state

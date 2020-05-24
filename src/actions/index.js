@@ -33,7 +33,7 @@ export const setName = (name) => ({
   name
 })
 
-export const refreshParticipants= (name) => ({
+export const refreshParticipants= (participants) => ({
   type: REFRESH_PARTICIPANTS,
-  name
+  participants
 })

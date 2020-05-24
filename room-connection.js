@@ -51,13 +51,18 @@ module.exports = {
       function refreshParticipants() {
         let socketIds = Object.keys(io.sockets.adapter.rooms[r].sockets)
         room.getParticipantNames(socketIds, (err, reply) => {
-          console.log('Response from getParticipantNames', reply);
           io.to(r).emit('refresh-participants', reply);
         });
       }
 
       socket.join(r, (err) => {
         if (err) { console.log(err); }
+        // TODO: Pull client data such as names and socket ID. Do not pull any
+        // score since that should be stored on backend
+        socket.emit('get-name', (data) => {
+          console.log('Initializing name for ', socket.id);
+          setName(data);
+        });
 
         // Connection handling
         console.log(socket.id, 'connected to ', r);
