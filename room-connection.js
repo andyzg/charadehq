@@ -25,7 +25,7 @@ module.exports = {
       function onMessage(data) {
         room.getRoom(socket.id, (err, reply) => {
           console.log('reply: ', reply);
-          io.to(r).emit('chat-message', data);
+          io.to(r).emit('message', data);
         });
       }
 

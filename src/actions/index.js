@@ -1,5 +1,6 @@
 export const SET_NAME = 'SET_NAME'
 export const REFRESH_PARTICIPANTS = 'REFRESH_PARTICIPANTS'
+export const MESSAGE = 'MESSAGE'
 
 
 export const clickWarmup = () => ({
@@ -24,8 +25,9 @@ export const switchPacks = stage => ({
   stage
 })
 
-export const switchIndices = () => ({
-  type: 'SWITCH_INDICES',
+export const onMessage = (message) => ({
+  type: MESSAGE,
+  message
 })
 
 export const setName = (name) => ({

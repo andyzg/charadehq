@@ -1,12 +1,13 @@
 import React from 'react'
-import ChatBox from './ChatBox'
-import ContentContainer from '../containers/ContentContainer'
+import ChatBoxContainer from '../containers/ChatBoxContainer'
+import ParticipantListContainer from '../containers/ParticipantListContainer'
 import NameInput from './NameInput'
 
 const App = () => (
   <div id="container" className="pure-g">
-    <ChatBox />
     <NameInput />
+    <ParticipantListContainer />
+    <ChatBoxContainer />
   </div>
 )
 
