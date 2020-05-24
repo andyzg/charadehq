@@ -3,6 +3,8 @@ var room = require('./room')(client);
 
 module.exports = {
   init: (io) => {
+    // TODO: Everytime the server reloads, the client socket ids change.
+    // Need to have a persistent UUID on the client side
     io.on('connect', (socket) => {
       var r = socket.request.headers.referer.split('/').pop();
       r = r.split('?')[0];
@@ -12,6 +14,14 @@ module.exports = {
       });
 
       // Functions
+      function onDisconnect() {
+        console.log('user disconnected');
+        room.deleteConnection(socket.id);
+
+        socket.removeListener('hello', onHello);
+        socket.disconnect();
+      }
+
       function onMessage(data) {
         room.getRoom(socket.id, (err, reply) => {
           console.log('reply: ', reply);
@@ -35,22 +45,27 @@ module.exports = {
 
       function setName(name) {
         room.setName(socket.id, name);
+        refreshParticipants();
+      }
+
+      function refreshParticipants() {
+        let socketIds = Object.keys(io.sockets.adapter.rooms[r].sockets)
+        room.getParticipantNames(socketIds, (err, reply) => {
+          console.log('Response from getParticipantNames', reply);
+          io.to(r).emit('refresh-participants', reply);
+        });
       }
 
       socket.join(r, (err) => {
         if (err) { console.log(err); }
 
         // Connection handling
-        console.log('a user connected to ', r);
-        socket.on('disconnect', () => {
-          console.log('user disconnected');
-          room.deleteConnection(socket.id);
-
-          socket.removeListener('hello', onHello);
-          socket.disconnect();
-        });
+        console.log(socket.id, 'connected to ', r);
+        // TODO: I think this can be removed.
+        // refreshParticipants();
 
         // Events
+        socket.on('disconnect', onDisconnect);
         socket.on('hello', onHello);
         socket.on('message', onMessage);
         socket.on('get-participants', getParticipants);

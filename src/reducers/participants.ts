@@ -1,9 +1,13 @@
-const participants = (state = {}, action) => {
+import { REFRESH_PARTICIPANTS } from '../actions/index'
+import { Participant } from '../models/Participant'
+
+
+const participants = (state: { [key: string]: Participant } = {}, action) => {
   switch (action.type) {
     case 'ADD_PARTICIPANTS':
       return action.participants;
-    case 'REFRESH_PARTICIPANTS':
-      return Object.assign(action.participant, state);
+    case REFRESH_PARTICIPANTS:
+      return action.participants;
     default:
       return state
   }

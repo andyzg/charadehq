@@ -1,4 +1,5 @@
 export const SET_NAME = 'SET_NAME'
+export const REFRESH_PARTICIPANTS = 'REFRESH_PARTICIPANTS'
 
 
 export const clickWarmup = () => ({
@@ -29,5 +30,10 @@ export const switchIndices = () => ({
 
 export const setName = (name) => ({
   type: SET_NAME,
+  name
+})
+
+export const refreshParticipants= (name) => ({
+  type: REFRESH_PARTICIPANTS,
   name
 })

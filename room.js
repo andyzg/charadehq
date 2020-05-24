@@ -79,6 +79,11 @@ module.exports = function(client) {
     client.hmset(SOCKET_TO_NAME_KEY, socketId, name, cb)
   }
 
+  function getParticipantNames(socketIds, cb) {
+    console.log('Get participant names', socketIds);
+    client.hmget(SOCKET_TO_NAME_KEY, socketIds, cb)
+  }
+
   return {
     getRooms,
     getRoom,
@@ -88,6 +93,7 @@ module.exports = function(client) {
     roomExists,
     addConnection,
     deleteConnection,
-    setName
+    setName,
+    getParticipantNames
   }
 }
