@@ -41,4 +41,4 @@ class ChatBox extends React.Component<any, any> {
   }
 }
 
-export default connect()(ChatBox)
+export default ChatBox
