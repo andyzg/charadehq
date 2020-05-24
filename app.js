@@ -10,7 +10,7 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
-var room = require('./room')(client);
+var db = require('./db')(client);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

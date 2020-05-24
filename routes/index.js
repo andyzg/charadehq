@@ -3,12 +3,12 @@ var router = express.Router();
 var socketClient = require('../socket-connection');
 var roomClient = require('../room-connection');
 var client = require('../redis-client');
-var roomState = require('../room')(client.getClient());
+var db = require('../db')(client.getClient());
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  var roomId = roomState.generateRoomId();
-  roomState.generateRoom(roomId, (err, id) => {
+  var roomId = db.generateRoomId();
+  db.generateRoom(roomId, (err, id) => {
     res.redirect('/room/' + roomId);
   });
 });
@@ -17,10 +17,10 @@ router.get('/room/:room', function(req, res, next) {
 
   // If the room doesn't exist, then create the room
   if (req.params.room) {
-    roomState.roomExists(req.params.room, (resp) => {
+    db.roomExists(req.params.room, (resp) => {
       console.log('Response for room exist: ', resp);
       if (!resp) {
-        roomState.generateRoom(req.params.room, (err, id) => {
+        db.generateRoom(req.params.room, (err, id) => {
           console.log("Done generating room with ", id);
         });
       }

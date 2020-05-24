@@ -1,5 +1,5 @@
 var client = require('./redis-client').getClient();
-var room = require('./room')(client);
+var db = require('./db')(client);
 
 module.exports = {
   init: (io) => {
@@ -9,21 +9,21 @@ module.exports = {
       var r = socket.request.headers.referer.split('/').pop();
       r = r.split('?')[0];
 
-      room.addConnection(socket.id, r, (err, reply) => {
+      db.addConnection(socket.id, r, (err, reply) => {
         console.log('Added connection: ', reply);
       });
 
       // Functions
       function onDisconnect() {
         console.log('user disconnected');
-        room.deleteConnection(socket.id);
+        db.deleteConnection(socket.id);
 
         socket.removeListener('hello', onHello);
         socket.disconnect();
       }
 
       function onMessage(data) {
-        room.getRoom(socket.id, (err, reply) => {
+        db.getRoom(socket.id, (err, reply) => {
           io.to(r).emit('message', data);
         });
       }
@@ -37,13 +37,13 @@ module.exports = {
       }
 
       function setName(name) {
-        room.setName(socket.id, name);
+        db.setName(socket.id, name);
         refreshParticipants();
       }
 
       function refreshParticipants() {
         let socketIds = Object.keys(io.sockets.adapter.rooms[r].sockets)
-        room.getParticipantNames(socketIds, (err, reply) => {
+        db.getParticipantNames(socketIds, (err, reply) => {
           io.to(r).emit('refresh-participants', reply);
         });
       }
