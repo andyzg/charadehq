@@ -27,7 +27,6 @@ module.exports = function(client) {
   }
 
   function getRoom(socketId, cb) {
-    console.log(socketId);
     client.hmget(SOCKET_TO_ROOM_KEY, socketId, cb);
   }
 
@@ -36,7 +35,6 @@ module.exports = function(client) {
   }
 
   function roomExists(roomId, cb) {
-    console.log('Checking if room id exists: ', roomId);
     client.sismember(ROOM_KEY, roomId, (err, reply) => {
       cb(reply === 1);
     });
@@ -52,12 +50,10 @@ module.exports = function(client) {
 
   // Assume that the roomId is valid
   function addRoom(roomId, cb) {
-    console.log('Addding room id: ', roomId);
     client.sadd(ROOM_KEY, roomId, cb)
   }
 
   function generateRoom(roomId, cb) {
-    console.log('Generating room with: ', roomId);
     let rooms = getRooms((err, reply) => {
       let id = roomId ? roomId : makeid(8);
       addRoom(id, cb);
@@ -65,22 +61,18 @@ module.exports = function(client) {
   }
 
   function addConnection(socketId, r, cb) {
-    console.log('Add connection: ', socketId);
     client.hmset(SOCKET_TO_ROOM_KEY, socketId, r, cb)
   }
 
   function deleteConnection(socketId, cb) {
-    console.log('Delete connection: ', socketId);
     client.hdel(SOCKET_TO_ROOM_KEY, socketId, cb)
   }
 
   function setName(socketId, name, cb) {
-    console.log('Set name ', socketId, name);
     client.hmset(SOCKET_TO_NAME_KEY, socketId, name, cb)
   }
 
   function getParticipantNames(socketIds, cb) {
-    console.log('Get participant names', socketIds);
     client.hmget(SOCKET_TO_NAME_KEY, socketIds, cb)
   }
 
