@@ -18,8 +18,9 @@ jquery.get('https://raw.githubusercontent.com/andyzg/doif/master/content/selecto
 })
 
 import socket from './socket-connection'
-
 socket;
+import profile from './profile'
+profile;
 
 ReactDOM.render(
   <Provider store={store}>
