@@ -5,5 +5,6 @@ module.exports = {
     console.log('setting up io');
     io = require('socket.io')(http);
   },
-  getIo: () => { return io }
+  getIo: () => { return io },
+  closeIo: () => { io.close() }
 }

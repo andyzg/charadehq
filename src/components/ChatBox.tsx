@@ -17,6 +17,7 @@ class ChatBox extends React.Component<any, any> {
 
   handleSubmit(event) {
     event.preventDefault();
+    console.log('Emitting message');
     socket.emit('message', this.state.value);
   }
 

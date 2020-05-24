@@ -24,6 +24,7 @@ module.exports = {
 
       function onMessage(data) {
         db.getRoom(socket.id, (err, reply) => {
+          console.log('Messaging!!!', socket.id);
           io.to(r).emit('message', data);
         });
       }
