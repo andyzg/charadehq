@@ -1,7 +1,7 @@
 import store from './store'
-import { refreshParticipants } from './actions/index'
+import { onMessage, refreshParticipants } from './actions/index'
+import { setState } from './actions/musictionary'
 import profile from './util/profile'
-import { onMessage } from './actions/index'
 
 let socket = io('localhost:3000/')
 
@@ -29,6 +29,10 @@ socket.on('connect', () => {
   socket.on('message', (data) => {
     console.log('Message received', data, socket.id);
     store.dispatch(onMessage(data));
+  });
+
+  socket.on('game-change', (nextState) => {
+    store.dispatch(setState(nextState));
   });
 });
 

@@ -1,5 +1,6 @@
 var client = require('./redis-client').getClient();
 var db = require('./db')(client);
+var musictionary = require('./game/musictionary');
 
 module.exports = {
   init: (io) => {
@@ -46,6 +47,11 @@ module.exports = {
         db.setUUID(uuid, socket.id);
       }
 
+      function onGameChange(state) {
+        let nextState = musictionary.onGameChange(state);
+        io.to(r).emit('game-change', nextState);
+      }
+
       function refreshParticipants() {
         let socketIds = Object.keys(io.sockets.adapter.rooms[r].sockets)
         db.getParticipantNames(socketIds, (err, reply) => {
@@ -72,6 +78,7 @@ module.exports = {
         socket.on('get-participants', getParticipants);
         socket.on('set-name', setName);
         socket.on('set-uuid', setUUID);
+        socket.on('game-change', onGameChange);
       });
     });
   }
