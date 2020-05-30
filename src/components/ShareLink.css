@@ -1,0 +1,27 @@
+.sharelink {
+  display: flex;
+}
+
+.sharelink__input {
+  border: 1px solid rgba(0,0,0,.1);
+  width: 100%;
+}
+
+.sharelink__url {
+  line-height: 40px;
+  padding-left: 16px;
+}
+
+.sharelink__button {
+  background-color: #FF5967;
+  color: #fff;
+  border: none;
+  padding: 0px 16px;
+  outline: none;
+  float: right;
+  height: 100%;
+}
+
+.sharelink__button:focus {
+  outline: 1px solid rgba(0,0,0,.1);
+}

@@ -17,10 +17,10 @@ class App extends React.Component<any, any> {
       <div className="container">
         <div className="row">
           <div className="col-md-8">
-            <NameInput />
-            <ParticipantListContainer />
             <ShareLink />
+            <NameInput />
             <StartButton text="Start" />
+            <ParticipantListContainer />
             <GameViewContainer />
           </div>
           <div className="col-md-4">
