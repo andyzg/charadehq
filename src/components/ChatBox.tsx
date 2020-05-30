@@ -1,6 +1,7 @@
 import React from 'react'
 import socket from '../socket-connection'
 import { connect } from 'react-redux'
+import './ChatBox.css';
 
 class ChatBox extends React.Component<any, any> {
   constructor(props) {
@@ -30,12 +31,18 @@ class ChatBox extends React.Component<any, any> {
     }
 
     return (
-      <div className="">
-        <form onSubmit={this.handleSubmit}>
-        <input type="text" value={this.state.value} onChange={this.handleChange} />
-        <input type="submit" value="Submit" />
-        </form>
-        <ul id='chat-box'>{messageElements}</ul>
+      <div className="chatbox">
+        <br /> <br />
+        Chat box:
+        <ul className="chatbox__message-list">{messageElements}</ul>
+
+        <div className="chatbox__input input-group mb-3">
+          <input type="text" className="form-control" value={this.state.value} onChange={this.handleChange} aria-label="Message" aria-describedby="Input for message" />
+          <div className="input-group-append">
+            <button onClick={this.handleSubmit} className="btn btn-outline-secondary" type="button">Button</button>
+          </div>
+        </div>
+
       </div>
     );
   }

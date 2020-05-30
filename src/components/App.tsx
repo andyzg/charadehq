@@ -4,15 +4,32 @@ import ParticipantListContainer from '../containers/ParticipantListContainer'
 import NameInput from './NameInput'
 import ShareLink from './ShareLink'
 import StartButton from '../containers/StartButton'
+import GameViewContainer from '../containers/game/GameViewContainer'
+import './App.css';
 
-const App = () => (
-  <div id="container" className="pure-g">
-    <NameInput />
-    <ParticipantListContainer />
-    <ChatBoxContainer />
-    <ShareLink />
-    <StartButton text="Start" />
-  </div>
-)
+class App extends React.Component<any, any> {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div className="container">
+        <div className="row">
+          <div className="col-md-8">
+            <NameInput />
+            <ParticipantListContainer />
+            <ShareLink />
+            <StartButton text="Start" />
+            <GameViewContainer />
+          </div>
+          <div className="col-md-4">
+            <ChatBoxContainer />
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 
 export default App

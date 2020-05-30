@@ -1,7 +1,12 @@
+export const INIT = 'INIT'
 export const SET_NAME = 'SET_NAME'
 export const REFRESH_PARTICIPANTS = 'REFRESH_PARTICIPANTS'
 export const MESSAGE = 'MESSAGE'
 
+
+export const init = () => ({
+  type: INIT,
+})
 
 export const onMessage = (message) => ({
   type: MESSAGE,

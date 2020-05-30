@@ -1,0 +1,14 @@
+.participant-view {
+  width: 150px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.participant-view__avatar {
+  border-radius: 50%;
+  background-color: red;
+  width: 64px;
+  height: 64px;
+}

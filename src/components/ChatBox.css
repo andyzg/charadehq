@@ -1,0 +1,27 @@
+.chatbox {
+  height: 80vh;
+  position: relative;
+}
+
+.chatbox__message-list {
+  position: absolute;
+  bottom: 60px;
+  top: 60px;
+  left: 0;
+  right: 0;
+
+  border: 1px solid rgba(0,0,0,.1);
+}
+
+.chatbox__input {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 36px;
+}
+
+.chatbox__send {
+  position: absolute;
+  right: 0;
+}

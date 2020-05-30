@@ -1,13 +1,21 @@
 import socket from '../socket-connection'
-import { START_GAME } from '../actions/musictionary'
+import { START_GAME, SELECT_SONG } from '../actions/musictionary'
 
 
 export default store => next => action => {
   try {
-    if (action.type === START_GAME) {
-      socket.emit('game-change', Object.assign({
-        event: action.type
-      }, store.getState().musictionary));
+    switch (action.type) {
+      case START_GAME:
+        socket.emit('game-change', Object.assign({
+          event: START_GAME
+        }, store.getState().musictionary));
+        break;
+      case SELECT_SONG:
+        socket.emit('game-change', Object.assign({
+          event: SELECT_SONG
+        }, store.getState().musictionary));
+        break;
+      default:
     }
     console.log('message', action);
     next(action)

@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { setName } from '../actions/index'
+import ParticipantView from './ParticipantView'
+import './ParticipantList.css'
 
 class ParticipantList extends React.Component<any, any> {
   constructor(props) {
@@ -23,9 +25,17 @@ class ParticipantList extends React.Component<any, any> {
   render() {
     let participants = this.props.participants;
 
+    let list = [];
+
+    for (let i = 0; i < this.props.participants.length; i++) {
+      list.push(
+        <ParticipantView participant={this.props.participants[i]} key={i} />
+      )
+    }
+
     return (
-      <div className="">
-        {JSON.stringify(this.props.participants)}
+      <div className="participant-list">
+        {list}
       </div>
     );
   }

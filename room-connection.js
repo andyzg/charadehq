@@ -49,6 +49,7 @@ module.exports = {
 
       function onGameChange(state) {
         let nextState = musictionary.onGameChange(state);
+        console.log('Next state:', nextState);
         io.to(r).emit('game-change', nextState);
       }
 
