@@ -14,6 +14,7 @@ module.exports = {
       function onDisconnect() {
         console.log('user disconnected');
         db.deleteConnection(socket.id);
+        refreshParticipants();
 
         socket.removeListener('hello', onHello);
         socket.disconnect();
@@ -37,6 +38,9 @@ module.exports = {
       }
 
       function setName(uuid, name) {
+        if (!name) {
+          return
+        }
         db.setName(uuid, name);
         refreshParticipants();
       }
@@ -72,7 +76,9 @@ module.exports = {
 
         db.getUUIDs(socketIds, (err, uuids) => {
           console.log('refreshParticipants, uuids: ', uuids);
+          uuids = uuids.filter(Boolean);
           db.getParticipantNames(uuids, (err, reply) => {
+            console.log('Get participant names: ', reply);
             if (uuids && reply) {
               console.log('refreshParticipants, names: ', constructParticipants(uuids, reply));
               io.to(r).emit('refresh-participants', constructParticipants(uuids, reply));
@@ -83,6 +89,7 @@ module.exports = {
 
       socket.join(r, (err) => {
         if (err) { console.log(err); }
+        refreshParticipants();
 
         // Connection handling
         console.log(socket.id, 'connected to ', r);
@@ -93,6 +100,7 @@ module.exports = {
           if (data.name) {
             setName(data.uuid, data.name);
           }
+
           setUUID(data.uuid);
 
           // Add connection to the room

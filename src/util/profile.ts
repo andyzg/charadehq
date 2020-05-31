@@ -39,7 +39,8 @@ export default {
   setUUID: () => {
     let uuid = Cookies.get('uuid');
     if (!uuid) {
-      Cookies.set('uuid', createUUID(), { expires: 7 })
+      uuid = createUUID()
+      Cookies.set('uuid', uuid, { expires: 7 })
     }
     console.log('Setting uuid as ', uuid);
     socket.emit('set-uuid', uuid);
