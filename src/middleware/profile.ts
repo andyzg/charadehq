@@ -1,4 +1,5 @@
 import { SET_NAME } from '../actions/index'
+import profile from '../util/profile'
 import Cookies from 'js-cookie'
 import socket from '../socket-connection'
 
@@ -7,7 +8,7 @@ export default store => next => action => {
     if (action.type === SET_NAME) {
       console.log('setting the name', action.name);
       Cookies.set('name', action.name, { expires: 7 })
-      socket.emit('set-name', action.name);
+      socket.emit('set-name', profile.getUUID(), action.name);
     }
     next(action)
   } catch (err) {

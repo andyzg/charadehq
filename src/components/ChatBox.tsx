@@ -1,4 +1,5 @@
 import React from 'react'
+import profile from '../util/profile'
 import socket from '../socket-connection'
 import { connect } from 'react-redux'
 import './ChatBox.css';
@@ -19,7 +20,11 @@ class ChatBox extends React.Component<any, any> {
   handleSubmit(event) {
     event.preventDefault();
     console.log('Emitting message');
-    socket.emit('message', this.state.value);
+    profile.clearCookies();
+    socket.emit('message', {
+      message: this.state.value,
+      uuid: profile.getUUID()
+    });
   }
 
   render() {

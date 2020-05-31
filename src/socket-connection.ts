@@ -5,7 +5,6 @@ import profile from './util/profile'
 
 let socket = io('localhost:3000/')
 
-console.log('Created a socket!!!');
 socket.on('connect', () => {
 
   profile.setUUID();
@@ -33,6 +32,10 @@ socket.on('connect', () => {
 
   socket.on('game-change', (nextState) => {
     store.dispatch(setState(nextState));
+  });
+
+  socket.on('disconnect', function () {
+    socket.emit('dc', profile.getUUID());
   });
 });
 

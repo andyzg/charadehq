@@ -10,10 +10,6 @@ module.exports = {
       var r = socket.request.headers.referer.split('/').pop();
       r = r.split('?')[0];
 
-      db.addConnection(socket.id, r, (err, reply) => {
-        console.log('Added connection: ', reply);
-      });
-
       // Functions
       function onDisconnect() {
         console.log('user disconnected');
@@ -24,9 +20,9 @@ module.exports = {
       }
 
       function onMessage(data) {
-        db.getRoom(socket.id, (err, reply) => {
-          console.log('Messaging!!!', socket.id);
-          io.to(r).emit('message', data);
+        db.getRoom(data.uuid, (err, reply) => {
+          console.log('Messaging!!!', data.uuid);
+          io.to(r).emit('message', data.message);
         });
       }
 
@@ -35,16 +31,18 @@ module.exports = {
       }
 
       function getParticipants(socketId) {
-        socket.emit('get-participants', Object.keys(io.sockets.adapter.rooms[r].sockets));
+        db.getUUIDs(Object.keys(io.sockets.adapter.rooms[r].sockets), (err, uuids) => {
+          socket.emit('get-participants', Object.keys(io.sockets.adapter.rooms[r].sockets));
+        });
       }
 
-      function setName(name) {
-        db.setName(socket.id, name);
+      function setName(uuid, name) {
+        db.setName(uuid, name);
         refreshParticipants();
       }
 
       function setUUID(uuid) {
-        db.setUUID(uuid, socket.id);
+        db.setUUID(socket.id, uuid);
       }
 
       function onGameChange(state) {
@@ -55,21 +53,35 @@ module.exports = {
 
       function refreshParticipants() {
         let socketIds = Object.keys(io.sockets.adapter.rooms[r].sockets)
-        db.getParticipantNames(socketIds, (err, reply) => {
-          io.to(r).emit('refresh-participants', reply);
+        console.log('refreshParticipants, socket ids: ', socketIds);
+
+        db.getUUIDs(socketIds, (err, uuids) => {
+          console.log('refreshParticipants, uuids: ', uuids);
+          db.getParticipantNames(uuids, (err, reply) => {
+            console.log('refreshParticipants, names: ', reply);
+            io.to(r).emit('refresh-participants', reply);
+          });
         });
       }
 
       socket.join(r, (err) => {
         if (err) { console.log(err); }
+
         // Connection handling
         console.log(socket.id, 'connected to ', r);
 
         // TODO: Pull client data such as names and socket ID. Do not pull any
         // score since that should be stored on backend
         socket.emit('get-profile', (data) => {
-          setName(data.name);
+          if (data.name) {
+            setName(data.uuid, data.name);
+          }
           setUUID(data.uuid);
+
+          // Add connection to the room
+          db.addConnection(data.uuid, r, (err, reply) => {
+            console.log('Added connection: ', reply);
+          });
         });
 
         // Events

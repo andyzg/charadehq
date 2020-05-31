@@ -17,8 +17,8 @@ class App extends React.Component<any, any> {
       <div className="container">
         <div className="row">
           <div className="col-md-8">
-            <ShareLink />
             <NameInput />
+            <ShareLink />
             <StartButton text="Start" />
             <ParticipantListContainer />
             <GameViewContainer />

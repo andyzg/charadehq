@@ -19,7 +19,7 @@ class ShareLink extends React.Component<any, any> {
             <span className="sharelink__url">
             {url}
             </span>
-            <button className="sharelink__button">Copy invite link</button>
+            <button className="sharelink__button">Copy invite</button>
           </div>
         </CopyToClipboard>
       </div>

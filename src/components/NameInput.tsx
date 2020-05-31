@@ -1,11 +1,12 @@
 import React from 'react'
+import profile from '../util/profile'
 import { connect } from 'react-redux'
 import { setName } from '../actions/index'
 
 class NameInput extends React.Component<any, any> {
   constructor(props) {
     super(props);
-    this.state = {value: 'waz good'};
+    this.state = {value: profile.getName() };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);

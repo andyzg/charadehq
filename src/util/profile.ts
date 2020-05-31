@@ -23,12 +23,15 @@ function makeid(length) {
 
 let name = Cookies.get('name');
 if (!name) {
-  Cookies.set('name', makeid(8), { expires: 7 })
+  // Cookies.set('name', makeid(8), { expires: 7 })
 }
 
 export default {
   getName: () => {
     return Cookies.get('name');
+  },
+  isNameSet: () => {
+    return Cookies.get('uuid');
   },
   getUUID: () => {
     return Cookies.get('uuid');
@@ -40,6 +43,9 @@ export default {
     }
     console.log('Setting uuid as ', uuid);
     socket.emit('set-uuid', uuid);
+  },
+  clearCookies: () => {
+    Cookies.remove('name');
   }
 }
 

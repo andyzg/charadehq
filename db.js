@@ -2,16 +2,31 @@ const DEV_PREFIX = 'DEV:'
 const PROD_PREFIX = 'PROD:'
 
 const ACTIVE_ROOMS = 'active-rooms';
-const SOCKET_TO_ROOM = 'socket-to-room';
-const SOCKET_TO_NAME = 'socket-to-name';
-const UUID_TO_SOCKET = 'uuid-to-socket';
+const UUID_TO_ROOM = 'uuid-to-room';
+const UUID_TO_NAME = 'uuid-to-name';
+const UUID_TO_SOCKET_PREFIX = 'uuid-to-socket';
+const SOCKET_TO_UUID = 'socket-to-uuid';
+const ROOM_TO_UUID_PREFIX = 'room-to-uuid';
 
 module.exports = function(client) {
 
+  // List of rooms
   let ROOM_KEY = DEV_PREFIX + ACTIVE_ROOMS;
-  let SOCKET_TO_ROOM_KEY = DEV_PREFIX + SOCKET_TO_ROOM;
-  let SOCKET_TO_NAME_KEY = DEV_PREFIX + SOCKET_TO_NAME;
-  let UUID_TO_SOCKET_KEY = DEV_PREFIX + UUID_TO_SOCKET;
+
+  // Client UUID to room
+  let UUID_TO_ROOM_KEY = DEV_PREFIX + UUID_TO_ROOM;
+
+  // Client UUID to name
+  let UUID_TO_NAME_KEY = DEV_PREFIX + UUID_TO_NAME;
+
+  // Client UUID to socket id
+  let UUID_TO_SOCKET_PREFIX_KEY = DEV_PREFIX + UUID_TO_SOCKET_PREFIX;
+
+  // Client UUID to socket id
+  let SOCKET_TO_UUID_KEY = DEV_PREFIX + SOCKET_TO_UUID;
+
+  // Socket UUID to client UUID
+  let ROOM_TO_UUID_PREFIX_KEY = DEV_PREFIX + ROOM_TO_UUID_PREFIX;
 
   function makeid(length) {
      var result           = '';
@@ -28,8 +43,8 @@ module.exports = function(client) {
     return makeid(length);
   }
 
-  function getRoom(socketId, cb) {
-    client.hmget(SOCKET_TO_ROOM_KEY, socketId, cb);
+  function getRoom(clientUUID, cb) {
+    client.hmget(UUID_TO_ROOM_KEY, clientUUID, cb);
   }
 
   function getRooms(cb) {
@@ -62,25 +77,51 @@ module.exports = function(client) {
     });
   }
 
-  function addConnection(socketId, r, cb) {
-    client.hmset(SOCKET_TO_ROOM_KEY, socketId, r, cb)
+  function addConnection(clientUUID, r, cb) {
+    client.hmset(UUID_TO_ROOM_KEY, clientUUID, r, cb)
+    client.sadd(ROOM_TO_UUID_PREFIX_KEY + r, clientUUID)
   }
 
-  function deleteConnection(socketId, cb) {
-    client.hdel(SOCKET_TO_ROOM_KEY, socketId, cb)
+  function deleteConnection(socketId) {
+    // First get the client uuid
+    client.hget(SOCKET_TO_UUID_KEY, socketId, (err, uuid) => {
+      // Remove the socket
+      client.hdel(SOCKET_TO_UUID_KEY, socketId);
+
+      // Remove it from the uuid -> socket mapping
+      client.srem(UUID_TO_SOCKET_PREFIX_KEY + uuid, socketId, () => {
+        // Check if there are any sockets remaining
+        client.smembers(UUID_TO_SOCKET_PREFIX_KEY + uuid, (err, resp) => {
+          if (resp.length === 0 && uuid) {
+            client.hdel(UUID_TO_ROOM_KEY, uuid);
+            client.hdel(UUID_TO_NAME_KEY, uuid);
+          }
+        });
+      });
+    });
   }
 
-  function setName(socketId, name, cb) {
-    client.hmset(SOCKET_TO_NAME_KEY, socketId, name, cb)
+  function setName(clientUUID, name, cb) {
+    console.log('Set name: ', clientUUID, name);
+    client.hmset(UUID_TO_NAME_KEY, clientUUID, name)
   }
 
-  function setUUID(uuid, socketId, cb) {
+  // TODO: Remove
+  function setUUID(socketId, uuid, cb) {
     console.log('Setting the UUID to be ', uuid, ' to ', socketId);
-    client.hmset(UUID_TO_SOCKET_KEY, uuid, socketId, cb)
+    client.sadd(UUID_TO_SOCKET_PREFIX_KEY + uuid, socketId, cb)
+    client.hmset(SOCKET_TO_UUID_KEY, socketId, uuid)
   }
 
-  function getParticipantNames(socketIds, cb) {
-    client.hmget(SOCKET_TO_NAME_KEY, socketIds, cb)
+  function getUUIDs(socketIds, cb) {
+    client.hmget(SOCKET_TO_UUID_KEY, socketIds, (err, resp) => {
+      console.log('getUUIDs: ', resp);
+      cb(err, [...new Set(resp)]);
+    });
+  }
+
+  function getParticipantNames(uuids, cb) {
+    client.hmget(UUID_TO_NAME_KEY, uuids, cb)
   }
 
   return {
@@ -94,6 +135,7 @@ module.exports = function(client) {
     deleteConnection,
     setName,
     getParticipantNames,
-    setUUID
+    setUUID,
+    getUUIDs
   }
 }
