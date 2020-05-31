@@ -1,9 +1,7 @@
 import React from 'react'
 import ChatBoxContainer from '../containers/ChatBoxContainer'
 import ParticipantListContainer from '../containers/ParticipantListContainer'
-import NameInput from './NameInput'
-import ShareLink from './ShareLink'
-import StartButton from '../containers/StartButton'
+import Header from '../containers/HeaderContainer'
 import GameViewContainer from '../containers/game/GameViewContainer'
 import './App.css';
 
@@ -17,11 +15,7 @@ class App extends React.Component<any, any> {
       <div className="container">
         <div className="row">
           <div className="col-md-8">
-            <div className="pregame-header">
-              <NameInput />
-              <ShareLink />
-              <StartButton text="Start" />
-            </div>
+            <Header />
             <ParticipantListContainer />
             <GameViewContainer />
           </div>
