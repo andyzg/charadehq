@@ -20,7 +20,6 @@ class ChatBox extends React.Component<any, any> {
   handleSubmit(event) {
     event.preventDefault();
     console.log('Emitting message');
-    profile.clearCookies();
     socket.emit('message', {
       message: this.state.value,
       uuid: profile.getUUID()
@@ -44,7 +43,7 @@ class ChatBox extends React.Component<any, any> {
         <div className="chatbox__input input-group mb-3">
           <input type="text" className="form-control" value={this.state.value} onChange={this.handleChange} aria-label="Message" aria-describedby="Input for message" />
           <div className="input-group-append">
-            <button onClick={this.handleSubmit} className="btn btn-outline-secondary" type="button">Button</button>
+            <button onClick={this.handleSubmit} className="button-primary btn btn-outline-secondary" type="button">Button</button>
           </div>
         </div>
 

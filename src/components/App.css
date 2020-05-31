@@ -11,17 +11,26 @@
 }
 
 .button {
-  background-color: #FF5967;
   border: none;
-  color: #fff;
   border-radius: 2px;
   padding: 8px 16px;
   box-sizing: border-box;
-  border: 1px solid #FF5967;
-  transition: .2s border ease;
+  transition: .2s all ease;
 }
 
 .button:focus {
   outline: none;
-  border: 1px solid rgba(255,255,255,.8);
 }
+
+
+.button-primary {
+  background-color: #FF5967;
+  color: #fff;
+  border: none;
+}
+
+.button-primary:hover,
+.button-primary:active {
+  background-color: #E5505D !important;
+}
+
