@@ -2,6 +2,7 @@ import React from 'react'
 import profile from '../util/profile'
 import { connect } from 'react-redux'
 import { setName } from '../actions/index'
+import './NameInput.css';
 
 class NameInput extends React.Component<any, any> {
   constructor(props) {
@@ -23,12 +24,14 @@ class NameInput extends React.Component<any, any> {
 
   render() {
     return (
-      <div className="">
-        My name:
-        <form onSubmit={this.handleSubmit}>
-        <input type="text" value={this.state.value} onChange={this.handleChange} />
-        <input type="submit" value="Submit" />
-        </form>
+      <div className="nameinput">
+        <span className="nameinput__text">Welcome to Charade HQ!</span>
+        <div className="input-group mb-3 nameinput__row">
+          <input type="text" className="nameinput__input form-control" value={this.state.value} onChange={this.handleChange} aria-label="Message" aria-describedby="Input for message" placeholder="What's your name?" />
+          <div className="input-group-append">
+            <button onClick={this.handleSubmit} className="btn nameinput__button" type="button">Submit</button>
+          </div>
+        </div>
       </div>
     );
   }

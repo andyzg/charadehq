@@ -1,0 +1,25 @@
+.nameinput {
+  width: 70%;
+}
+
+.nameinput__text {
+  color: #333;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.nameinput__row {
+  margin-top: 16px;
+}
+
+.nameinput__input {
+}
+
+.nameinput__button {
+  color: #fff;
+  background-color: #FF5967;
+}
+
+.nameinput__button:hover {
+  color: #fff;
+}

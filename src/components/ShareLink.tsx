@@ -6,6 +6,11 @@ import './ShareLink.css';
 class ShareLink extends React.Component<any, any> {
   constructor(props) {
     super(props);
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
   }
 
   render() {
@@ -15,11 +20,11 @@ class ShareLink extends React.Component<any, any> {
       <div className="sharelink">
         <CopyToClipboard text={window.location.href}
           onCopy={() => this.setState({copied: true})}>
-          <div className="sharelink__input">
-            <span className="sharelink__url">
-            {url}
-            </span>
-            <button className="sharelink__button">Copy invite</button>
+          <div className="sharelink__group input-group mb-3">
+            <input disabled={true} readOnly={true} onChange={this.handleChange} type="text" className="form-control sharelink__input" value={url} aria-label="Invite link" aria-describedby="Invite link" />
+            <div className="input-group-append">
+              <button className="btn nameinput__button" type="button">Copy invite</button>
+            </div>
           </div>
         </CopyToClipboard>
       </div>

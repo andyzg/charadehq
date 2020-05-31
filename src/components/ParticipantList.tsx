@@ -24,6 +24,7 @@ class ParticipantList extends React.Component<any, any> {
 
   render() {
     let participants = this.props.participants;
+    console.log(participants);
 
     let list = [];
 

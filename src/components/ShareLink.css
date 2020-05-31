@@ -2,9 +2,15 @@
   display: flex;
 }
 
-.sharelink__input {
+.sharelink__group {
+  width: 70%;
+}
+
+.sharelink__input,
+.sharelink__input:disabled,
+.sharelink__input[readonly] {
   border: 1px solid rgba(0,0,0,.1);
-  width: 100%;
+  background-color: #fff;
 }
 
 .sharelink__url {
@@ -19,7 +25,9 @@
   padding: 0px 16px;
   outline: none;
   float: right;
-  height: 100%;
+  height: 32px;
+  margin: 5px;
+  border-radius: 2px;
 }
 
 .sharelink__button:focus {

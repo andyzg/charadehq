@@ -24,7 +24,7 @@ class GameView extends React.Component<any, any> {
     return (
       <div>
       {'Game state: ' + this.props.game.state}
-        <button onClick={this.handleSubmit}>Game view</button>
+        <button className='button' onClick={this.handleSubmit}>Game view</button>
       </div>
     );
   }
