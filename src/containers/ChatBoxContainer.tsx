@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { sendMessage } from '../actions/index'
 import ChatBox from '../components/ChatBox'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -6,6 +7,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
+  sendMessage: (message) => { dispatch(sendMessage(message)) }
 })
 
 export default connect(

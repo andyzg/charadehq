@@ -9,8 +9,11 @@
   top: 60px;
   left: 0;
   right: 0;
+  line-height: 125%;
 
   border: 1px solid rgba(0,0,0,.1);
+  overflow: hidden;
+  overflow-y: scroll;
 }
 
 .chatbox__input {
@@ -24,4 +27,9 @@
 .chatbox__send {
   position: absolute;
   right: 0;
+}
+
+.chatbox__sender {
+  color: #E5505D;
+  padding-right: 4px;
 }

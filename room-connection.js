@@ -23,7 +23,12 @@ module.exports = {
       function onMessage(data) {
         db.getRoom(data.uuid, (err, reply) => {
           console.log('Messaging!!!', data.uuid);
-          io.to(r).emit('message', data.message);
+          io.to(r).emit('message', {
+            message: data.message,
+            uuid: data.uuid,
+            datetime: data.datetime,
+            name: data.name
+          });
         });
       }
 
@@ -31,9 +36,17 @@ module.exports = {
         io.to(r).emit('test', data);
       }
 
+      function getRoomSockets() {
+        let room = io.sockets.adapter.rooms[r]
+        if (room) {
+          return Object.keys(room.sockets)
+        }
+        return []
+      }
+
       function getParticipants(socketId) {
-        db.getUUIDs(Object.keys(io.sockets.adapter.rooms[r].sockets), (err, uuids) => {
-          socket.emit('get-participants', Object.keys(io.sockets.adapter.rooms[r].sockets));
+        db.getUUIDs(getRoomSockets(), (err, uuids) => {
+          socket.emit('get-participants', getRoomSockets());
         });
       }
 
@@ -71,7 +84,7 @@ module.exports = {
       }
 
       function refreshParticipants() {
-        let socketIds = Object.keys(io.sockets.adapter.rooms[r].sockets)
+        let socketIds = getRoomSockets()
         console.log('refreshParticipants, socket ids: ', socketIds);
 
         db.getUUIDs(socketIds, (err, uuids) => {
