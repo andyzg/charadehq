@@ -1,5 +1,5 @@
 export interface Participant {
   name: string;
-  socketId: string;
+  clientUUID: string;
   score: number;
 }

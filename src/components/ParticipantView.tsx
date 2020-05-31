@@ -11,14 +11,13 @@ class ParticipantList extends React.Component<any, any> {
   }
 
   render() {
-    let isMe = profile.getName() === this.props.participant;
-    console.log(this.props.participant);
+    let isMe = profile.getUUID() === this.props.participant.uuid;
 
     return (
       <div className="participant-view">
         <div className="participant-view__avatar">
         </div>
-        {(isMe ? '(You) ' : '') + this.props.participant}
+        {(isMe ? '(You) ' : '') + this.props.participant.name}
       </div>
     );
   }

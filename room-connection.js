@@ -51,6 +51,21 @@ module.exports = {
         io.to(r).emit('game-change', nextState);
       }
 
+      function constructParticipants(uuids, names) {
+        if (uuids.length !== names.length) {
+          console.log('constructParticipants WE GOT A PROBLEM!');
+        }
+
+        let data = []
+        for (let i = 0; i < uuids.length; i++) {
+          data.push({
+            name: names[i],
+            uuid: uuids[i]
+          });
+        }
+        return data
+      }
+
       function refreshParticipants() {
         let socketIds = Object.keys(io.sockets.adapter.rooms[r].sockets)
         console.log('refreshParticipants, socket ids: ', socketIds);
@@ -58,8 +73,10 @@ module.exports = {
         db.getUUIDs(socketIds, (err, uuids) => {
           console.log('refreshParticipants, uuids: ', uuids);
           db.getParticipantNames(uuids, (err, reply) => {
-            console.log('refreshParticipants, names: ', reply);
-            io.to(r).emit('refresh-participants', reply);
+            if (uuids && reply) {
+              console.log('refreshParticipants, names: ', constructParticipants(uuids, reply));
+              io.to(r).emit('refresh-participants', constructParticipants(uuids, reply));
+            }
           });
         });
       }
