@@ -1,0 +1,26 @@
+.roleinfo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #FFD9DC;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.roleinfo__role-pretext {
+  text-align: center;
+}
+
+.roleinfo__role {
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.roleinfo__dismiss {
+}

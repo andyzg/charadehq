@@ -10,10 +10,11 @@ class Header extends React.Component<any, any> {
   }
 
   render() {
-    let pending = this.props.gameState === PENDING
+    let pending = this.props.showHeader
+
     return (
       <div className="pregame-header">
-        {this.props.gameState}
+        {this.props.showHeader}
         { pending ? <NameInput /> : null}
         <ShareLink />
         { pending ? <StartButton text="Start" /> : null}

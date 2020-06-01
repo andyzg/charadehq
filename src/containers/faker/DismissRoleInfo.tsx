@@ -1,15 +1,15 @@
 import { connect } from 'react-redux'
-import { PENDING } from '../models/FakerState'
-import Header from '../components/Header'
+import Button from '../../components/Button'
+import { dismissRoleInfo } from '../../actions/faker'
 
 const mapStateToProps = (state, ownProps) => ({
-  showHeader: state.faker.gameState === PENDING
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
+  onSubmit: () => { dispatch(dismissRoleInfo()) }
 })
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Header)
+)(Button)

@@ -1,9 +1,10 @@
 import { connect } from 'react-redux'
-import { PENDING } from '../models/FakerState'
-import Header from '../components/Header'
+import { SHOW_ROLE } from '../models/FakerState'
+import RoleInfo from '../components/RoleInfo'
 
 const mapStateToProps = (state, ownProps) => ({
-  showHeader: state.faker.gameState === PENDING
+  role: 'FAKER',
+  showRole: state.faker.userState === SHOW_ROLE
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -12,4 +13,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Header)
+)(RoleInfo)

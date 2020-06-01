@@ -1,4 +1,6 @@
 .participant-list {
+  position: relative;
   margin-top: 32px;
   display: flex;
+  min-height: 300px;
 }

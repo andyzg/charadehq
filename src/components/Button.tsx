@@ -14,8 +14,8 @@ class Button extends React.Component<any, any> {
 
   render() {
     return (
-      <div className="">
-        <button className="button button-primary" onClick={this.handleSubmit}>{this.props.text}</button>
+      <div>
+        <button className={this.props.className + ' button button-primary'} onClick={this.handleSubmit}>{this.props.text}</button>
       </div>
     );
   }

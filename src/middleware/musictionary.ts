@@ -17,7 +17,6 @@ export default store => next => action => {
         break;
       default:
     }
-    console.log('message', action);
     next(action)
   } catch (err) {
     console.error('Caught an error in musictionary middleware', err)

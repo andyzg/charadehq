@@ -1,6 +1,6 @@
 import store from './store'
 import { onMessage, refreshParticipants } from './actions/index'
-import { setState } from './actions/musictionary'
+import { setState } from './actions/faker'
 import profile from './util/profile'
 
 let socket = io('localhost:3000/')
@@ -30,8 +30,12 @@ socket.on('connect', () => {
     store.dispatch(onMessage(data));
   });
 
-  socket.on('game-change', (nextState) => {
-    store.dispatch(setState(nextState));
+  socket.on('game-change', (data) => {
+    store.dispatch(setState({
+      event: data.event,
+      state: data.event,
+      gameState: data.gameState
+    }));
   });
 
   socket.on('disconnect', function () {

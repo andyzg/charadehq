@@ -1,6 +1,6 @@
 var client = require('./redis-client').getClient();
 var db = require('./db')(client);
-var musictionary = require('./game/musictionary');
+var faker = require('./game/faker');
 
 module.exports = {
   init: (io) => {
@@ -21,9 +21,7 @@ module.exports = {
       }
 
       function onMessage(data) {
-        db.getRoom(data.uuid, (err, reply) => {
-          console.log('Messaging!!!', data.uuid);
-          io.to(r).emit('message', {
+        db.getRoom(data.uuid, (err, reply) => { console.log('Messaging!!!', data.uuid); io.to(r).emit('message', {
             message: data.message,
             uuid: data.uuid,
             datetime: data.datetime,
@@ -63,7 +61,7 @@ module.exports = {
       }
 
       function onGameChange(state) {
-        let nextState = musictionary.onGameChange(state);
+        let nextState = faker.onGameChange(state);
         console.log('Next state:', nextState);
         io.to(r).emit('game-change', nextState);
       }

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import Button from '../components/Button'
-import { startGame } from '../actions/musictionary'
+import { startGame } from '../actions/faker'
 
 const mapStateToProps = (state, ownProps) => ({
 })
