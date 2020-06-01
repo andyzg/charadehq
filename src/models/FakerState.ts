@@ -7,6 +7,7 @@ export const VOTE = 'STATE_VOTE'
 export const REVEAL = 'STATE_REVEAL'
 export const END = 'STATE_END'
 
+export const ROLE_OUT = 'ROLE_OUT'
 export const ROLE_REAL = 'ROLE_REAL'
 export const ROLE_FAKER = 'ROLE_FAKER'
 

@@ -1,6 +1,6 @@
 import store from './store'
 import { onMessage, refreshParticipants } from './actions/index'
-import { setState } from './actions/faker'
+import { setState, setUserState } from './actions/faker'
 import profile from './util/profile'
 
 let socket = io('localhost:3000/')
@@ -36,6 +36,10 @@ socket.on('connect', () => {
       state: data.event,
       gameState: data.gameState
     }));
+  });
+
+  socket.on('user-change', (data) => {
+    store.dispatch(setUserState(data.userState));
   });
 
   socket.on('disconnect', function () {

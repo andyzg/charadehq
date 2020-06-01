@@ -3,8 +3,8 @@ import { SHOW_ROLE } from '../models/FakerState'
 import RoleInfo from '../components/RoleInfo'
 
 const mapStateToProps = (state, ownProps) => ({
-  role: 'FAKER',
-  showRole: state.faker.userState === SHOW_ROLE
+  role: state.faker.userState,
+  showRole: state.session.roleModal
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

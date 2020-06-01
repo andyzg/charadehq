@@ -2,5 +2,7 @@ extends ../layout
 
 block content
   div(id='app')
+  script.
+    window.ROOM = '#{title}';
   script
     include ../../public/js/bundles/bundle.js

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import Button from '../../components/Button'
-import { dismissRoleInfo } from '../../actions/faker'
+import { dismissRoleInfo } from '../../actions/index'
 
 const mapStateToProps = (state, ownProps) => ({
 })

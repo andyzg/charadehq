@@ -7,6 +7,7 @@ const UUID_TO_NAME = 'uuid-to-name';
 const UUID_TO_SOCKET_PREFIX = 'uuid-to-socket';
 const SOCKET_TO_UUID = 'socket-to-uuid';
 const ROOM_TO_UUID_PREFIX = 'room-to-uuid';
+const ROOM_TO_FAKERS_PREFIX = 'room-to-fakers';
 
 module.exports = function(client) {
 
@@ -106,7 +107,10 @@ module.exports = function(client) {
     client.hmset(UUID_TO_NAME_KEY, clientUUID, name)
   }
 
-  // TODO: Remove
+  function getSocketIds(uuid, cb) {
+    client.smembers(UUID_TO_SOCKET_PREFIX_KEY + uuid, cb);
+  }
+
   function setUUID(socketId, uuid, cb) {
     console.log('Setting the UUID to be ', uuid, ' to ', socketId);
     client.sadd(UUID_TO_SOCKET_PREFIX_KEY + uuid, socketId, cb)
@@ -118,6 +122,10 @@ module.exports = function(client) {
       console.log('getUUIDs: ', resp);
       cb(err, [...new Set(resp)]);
     });
+  }
+
+  function getRoomUUIDs(r, cb) {
+    client.smembers(ROOM_TO_UUID_PREFIX_KEY + r, cb);
   }
 
   function getParticipantNames(uuids, cb) {
@@ -136,6 +144,8 @@ module.exports = function(client) {
     setName,
     getParticipantNames,
     setUUID,
-    getUUIDs
+    getUUIDs,
+    getRoomUUIDs,
+    getSocketIds
   }
 }

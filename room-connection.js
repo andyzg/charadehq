@@ -83,15 +83,11 @@ module.exports = {
 
       function refreshParticipants() {
         let socketIds = getRoomSockets()
-        console.log('refreshParticipants, socket ids: ', socketIds);
 
         db.getUUIDs(socketIds, (err, uuids) => {
-          console.log('refreshParticipants, uuids: ', uuids);
           uuids = uuids.filter(Boolean);
           db.getParticipantNames(uuids, (err, reply) => {
-            console.log('Get participant names: ', reply);
             if (uuids && reply) {
-              console.log('refreshParticipants, names: ', constructParticipants(uuids, reply));
               io.to(r).emit('refresh-participants', constructParticipants(uuids, reply));
             }
           });
