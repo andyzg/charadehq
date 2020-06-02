@@ -30,4 +30,5 @@ export interface FakerState {
   players: { [key: string]: Player };
   // Updated from backend
   userState: string;
+  vote: string;
 }

@@ -4,18 +4,28 @@ import { connect } from 'react-redux'
 import { setName } from '../actions/index'
 import './ParticipantView.css'
 
-class ParticipantList extends React.Component<any, any> {
+class ParticipantView extends React.Component<any, any> {
   constructor(props) {
     super(props);
-    this.state = {value: 'waz good'};
+    this.state = {};
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(event) {
+    this.props.setVote(this.props.participant.uuid);
   }
 
   render() {
     let isMe = profile.getUUID() === this.props.participant.uuid;
+    let style = null;
+    if (this.props.voted === this.props.participant.uuid) {
+      style = {backgroundColor: '#09f'};
+    }
 
     return (
-      <div className="participant-view">
-        <div className="participant-view__avatar">
+      <div onClick={this.handleClick} className="participant-view">
+        <div className="participant-view__avatar" style={style}>
         </div>
         {(isMe ? '(You) ' : '') + this.props.participant.name}
       </div>
@@ -23,5 +33,5 @@ class ParticipantList extends React.Component<any, any> {
   }
 }
 
-export default ParticipantList
+export default ParticipantView
 

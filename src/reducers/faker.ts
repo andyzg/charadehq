@@ -1,5 +1,5 @@
 import { INIT } from '../actions/index'
-import { SET_USER_STATE, SET_STATE } from '../actions/faker'
+import { SET_USER_STATE, SET_STATE, SET_VOTE } from '../actions/faker'
 import { PENDING, ALIVE, WAITING, SHOW_ROLE, FakerState } from '../models/FakerState'
 
 
@@ -20,6 +20,11 @@ const musictionary = (state: FakerState = ({} as FakerState), action) => {
       return {
         ...state,
         userState: action.userState
+      }
+    case SET_VOTE:
+      return {
+        ...state,
+        voted: action.uuid
       }
     default:
       return state;

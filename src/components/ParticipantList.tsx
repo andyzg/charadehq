@@ -30,8 +30,12 @@ class ParticipantList extends React.Component<any, any> {
     let list = [];
 
     for (let i = 0; i < this.props.participants.length; i++) {
+      console.log(this.props.voted);
       list.push(
-        <ParticipantView participant={this.props.participants[i]} key={i} />
+        <ParticipantView setVote={this.props.setVote}
+                         participant={this.props.participants[i]}
+                         voted={this.props.voted}
+                         key={i} />
       )
     }
 
