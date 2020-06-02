@@ -62,7 +62,20 @@ function startGame(data) {
 
   createRoles(data.room, 1);
   setupTimer(data.room, 5, () => {
+    // Send out the questions
+    io.getIo().to(data.room).emit('game-change', {
+    });
+  });
 
+  db.getRandomUUID(data.room, (err, uuid) => {
+    db.getSocketIds(uuid, (err, resp) => {
+      for (let i of resp) {
+        io.getIo().to(i).emit('faker-prompt-question', {
+          // TODO: Add examples
+          message: 'Add question'
+        });
+      }
+    });
   });
 
   return {

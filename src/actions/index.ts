@@ -6,6 +6,8 @@ export const MESSAGE = 'MESSAGE'
 export const SHOW_ROLE_INFO = 'SHOW_ROLE_INFO'
 export const DISMISS_ROLE_INFO = 'DISMISS_ROLE_INFO'
 export const SET_TIMER = 'SET_TIMER'
+export const SHOW_PROMPT = 'SHOW_PROMPT'
+export const SUBMIT_PROMPT = 'SUBMIT_PROMPT'
 
 
 export const init = () => ({
@@ -33,6 +35,15 @@ export const showRoleInfo = () => ({
 
 export const dismissRoleInfo = () => ({
   type: DISMISS_ROLE_INFO
+})
+
+export const showPrompt = (data) => ({
+  type: SHOW_PROMPT,
+  data
+})
+
+export const submitPrompt = () => ({
+  type: SUBMIT_PROMPT,
 })
 
 export const refreshParticipants= (participants) => ({

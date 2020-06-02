@@ -1,5 +1,5 @@
 import store from './store'
-import { onMessage, refreshParticipants, setTimer } from './actions/index'
+import { onMessage, refreshParticipants, setTimer, showPrompt } from './actions/index'
 import { setState, setUserState } from './actions/faker'
 import profile from './util/profile'
 
@@ -49,6 +49,12 @@ socket.on('connect', () => {
   socket.on('timer', (secondsRemaining) => {
     store.dispatch(setTimer(secondsRemaining));
   });
+
+  socket.on('faker-prompt-question', (data) => {
+    console.log('Faker prompt');
+    store.dispatch(showPrompt(data));
+  });
+
 });
 
 export default socket

@@ -128,6 +128,12 @@ module.exports = function(client) {
     client.smembers(ROOM_TO_UUID_PREFIX_KEY + r, cb);
   }
 
+  function getRandomUUID(r, cb) {
+    getRoomUUIDs(r, (err, uuids) => {
+      cb(err, uuids[Math.floor(Math.random() * uuids.length)])
+    });
+  }
+
   function getParticipantNames(uuids, cb) {
     client.hmget(UUID_TO_NAME_KEY, uuids, cb)
   }
@@ -146,6 +152,7 @@ module.exports = function(client) {
     setUUID,
     getUUIDs,
     getRoomUUIDs,
-    getSocketIds
+    getSocketIds,
+    getRandomUUID
   }
 }

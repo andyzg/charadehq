@@ -1,5 +1,5 @@
 import { INIT } from '../actions/index'
-import { SHOW_ROLE_INFO, DISMISS_ROLE_INFO, SET_TIMER } from '../actions/index'
+import { SUBMIT_PROMPT, SHOW_PROMPT, SHOW_ROLE_INFO, DISMISS_ROLE_INFO, SET_TIMER } from '../actions/index'
 
 
 const session = (state: {} = {}, action) => {
@@ -14,6 +14,16 @@ const session = (state: {} = {}, action) => {
       return {
         ...state,
         roleModal: true
+      }
+    case SUBMIT_PROMPT:
+      return {
+        ...state,
+        promptModal: false
+      }
+    case SHOW_PROMPT:
+      return {
+        ...state,
+        promptModal: true
       }
     case DISMISS_ROLE_INFO:
       return {

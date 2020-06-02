@@ -38,4 +38,3 @@ class ParticipantView extends React.Component<any, any> {
 }
 
 export default ParticipantView
-

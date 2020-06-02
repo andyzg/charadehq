@@ -5,7 +5,8 @@ import ParticipantView from '../components/ParticipantView'
 
 const mapStateToProps = (state, ownProps) => ({
   voted: state.faker.voted,
-  myUUID: profile.getUUID()
+  myUUID: profile.getUUID(),
+  gameState: state.faker.gameState
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
