@@ -1,15 +1,19 @@
 import { connect } from 'react-redux'
 import { setVote } from '../actions/faker'
-import ParticipantList from '../components/ParticipantList'
+import profile from '../util/profile'
+import ParticipantView from '../components/ParticipantView'
 
 const mapStateToProps = (state, ownProps) => ({
-  participants: state.participants
+  voted: state.faker.voted,
+  myUUID: profile.getUUID()
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
+  setVote: (uuid) => { dispatch(setVote(uuid)) }
 })
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ParticipantList)
+)(ParticipantView)
+

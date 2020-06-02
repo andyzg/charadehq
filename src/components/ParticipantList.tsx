@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { setName } from '../actions/index'
-import ParticipantView from './ParticipantView'
+import ParticipantViewContainer from '../containers/ParticipantViewContainer'
 import RoleInfo from '../containers/RoleInfoContainer'
 import './ParticipantList.css'
 
@@ -32,10 +32,7 @@ class ParticipantList extends React.Component<any, any> {
     for (let i = 0; i < this.props.participants.length; i++) {
       console.log(this.props.voted);
       list.push(
-        <ParticipantView setVote={this.props.setVote}
-                         participant={this.props.participants[i]}
-                         voted={this.props.voted}
-                         key={i} />
+        <ParticipantViewContainer participant={this.props.participants[i]} key={i} />
       )
     }
 

@@ -13,11 +13,15 @@ class ParticipantView extends React.Component<any, any> {
   }
 
   handleClick(event) {
-    this.props.setVote(this.props.participant.uuid);
+    let isMe = this.props.myUUID === this.props.participant.uuid;
+    if (!isMe) {
+      this.props.setVote(this.props.participant.uuid);
+    } else {
+    }
   }
 
   render() {
-    let isMe = profile.getUUID() === this.props.participant.uuid;
+    let isMe = this.props.myUUID === this.props.participant.uuid;
     let style = null;
     if (this.props.voted === this.props.participant.uuid) {
       style = {backgroundColor: '#09f'};
