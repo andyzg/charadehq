@@ -1,5 +1,5 @@
 import store from './store'
-import { onMessage, refreshParticipants } from './actions/index'
+import { onMessage, refreshParticipants, setTimer } from './actions/index'
 import { setState, setUserState } from './actions/faker'
 import profile from './util/profile'
 
@@ -44,6 +44,10 @@ socket.on('connect', () => {
 
   socket.on('disconnect', function () {
     socket.emit('dc', profile.getUUID());
+  });
+
+  socket.on('timer', (secondsRemaining) => {
+    store.dispatch(setTimer(secondsRemaining));
   });
 });
 

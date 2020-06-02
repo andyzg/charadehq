@@ -15,13 +15,10 @@ const VOTE = 'STATE_VOTE'
 const REVEAL = 'STATE_REVEAL'
 const END = 'STATE_END'
 
-function startGame(data) {
-  let nextState = PENDING;
-  fakerdb.addFakers(data.room, 1, (err, fakers) => {
-    console.log(fakers);
+function createRoles(room, num) {
+  fakerdb.addFakers(room, num, (err, fakers) => {
     for (let f of fakers) {
       db.getSocketIds(f, (err, socketIds) => {
-        console.log('Emitting faker role', socketIds);
         for (let i of socketIds) {
           io.getIo().to(i).emit('user-change', {
             userState: 'ROLE_FAKER'
@@ -30,10 +27,9 @@ function startGame(data) {
       });
     }
 
-    db.getRoomUUIDs(data.room, (err, uuids) => {
+    db.getRoomUUIDs(room, (err, uuids) => {
       for (let i of uuids) {
         if (fakers.includes(i)) {
-          console.log('Skipping ', i);
           continue;
         }
 
@@ -47,7 +43,27 @@ function startGame(data) {
       }
     });
   });
+}
 
+function setupTimer(room, seconds, cb) {
+  let secondsRemaining = seconds
+  let interval = setInterval(() => {
+    io.getIo().to(room).emit('timer', secondsRemaining);
+
+    if (secondsRemaining <= 0) {
+      clearInterval(interval);
+    }
+    secondsRemaining -= 1
+  }, 1000);
+}
+
+function startGame(data) {
+  let nextState = PENDING;
+
+  createRoles(data.room, 1);
+  setupTimer(data.room, 5, () => {
+
+  });
 
   return {
     event: data.event,

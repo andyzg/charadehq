@@ -1,5 +1,5 @@
 import { INIT } from '../actions/index'
-import { SHOW_ROLE_INFO, DISMISS_ROLE_INFO } from '../actions/index'
+import { SHOW_ROLE_INFO, DISMISS_ROLE_INFO, SET_TIMER } from '../actions/index'
 
 
 const session = (state: {} = {}, action) => {
@@ -19,6 +19,11 @@ const session = (state: {} = {}, action) => {
       return {
         ...state,
         roleModal: false
+      }
+    case SET_TIMER:
+      return {
+        ...state,
+        timer: action.timer
       }
     default:
       return state

@@ -5,6 +5,7 @@ export const SEND_MESSAGE = 'SEND_MESSAGE'
 export const MESSAGE = 'MESSAGE'
 export const SHOW_ROLE_INFO = 'SHOW_ROLE_INFO'
 export const DISMISS_ROLE_INFO = 'DISMISS_ROLE_INFO'
+export const SET_TIMER = 'SET_TIMER'
 
 
 export const init = () => ({
@@ -37,4 +38,9 @@ export const dismissRoleInfo = () => ({
 export const refreshParticipants= (participants) => ({
   type: REFRESH_PARTICIPANTS,
   participants
+})
+
+export const setTimer = (timer) => ({
+  type: SET_TIMER,
+  timer
 })
