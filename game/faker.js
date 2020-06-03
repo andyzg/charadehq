@@ -59,8 +59,6 @@ function setupTimer(room, seconds, cb) {
 }
 
 function startGame(data) {
-  let nextState = PENDING;
-
   createRoles(data.room, 1);
   setupTimer(data.room, 5, () => {
     // Send out the questions
@@ -71,36 +69,48 @@ function startGame(data) {
 
   // Prompt one person to submit a question
   db.getRandomUUID(data.room, (err, uuid) => {
-    let message = {
-      // TODO: Add examples
-      source: data.source,
-      name: data.name,
-      datetime: new Date(),
-      message: data.name + ' is writing a prompt'
-    };
+    db.getName(uuid, (err, name) => {
+      let message = {
+        // TODO: Add examples
+        source: uuid,
+        name: name,
+        datetime: new Date(),
+        message: name + ' is writing a prompt'
+      };
 
-    // Send to everyone
-    db.getRoomUUIDs(data.room, (err, uuids) => {
-      for (let i of uuids) {
-        db.getSocketIds(i, (err, socketId) => {
-          for (let i of socketId) {
-            io.getIo().to(i).emit('faker-prompt-question', message);
-          }
-        });
-      }
+      // Send to everyone
+      db.getRoomUUIDs(data.room, (err, uuids) => {
+        for (let i of uuids) {
+          db.getSocketIds(i, (err, socketId) => {
+            for (let i of socketId) {
+              io.getIo().to(i).emit('faker-prompt-question', message);
+            }
+          });
+        }
+      });
     });
   });
 
   return {
-    event: data.event,
-    state: {}, // TODO
+    ...data,
     gameState: QUESTION
   }
 }
 
 function submitPrompt(data) {
   console.log('Submit prompt: ', data);
-  return data;
+
+  setupTimer(data.room, 5, () => {
+    // Send out the questions
+    io.getIo().to(data.room).emit('game-change', {
+    });
+  });
+
+  return {
+    ...data,
+    gameState: ANSWER,
+    payload: data.payload
+  };
 }
 
 module.exports = {

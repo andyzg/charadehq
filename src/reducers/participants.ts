@@ -1,4 +1,4 @@
-import { REFRESH_PARTICIPANTS, SET_USER_PENDING } from '../actions/index'
+import { REFRESH_PARTICIPANTS } from '../actions/index'
 import { Participant } from '../models/Participant'
 
 

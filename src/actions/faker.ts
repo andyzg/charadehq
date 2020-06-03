@@ -18,10 +18,8 @@ export const setVote = (uuid) => ({
   uuid
 })
 
-export const setState = ({event, state, gameState}) => ({
+export const setState = (data) => ({
   type: SET_STATE,
-  event,
-  state,
-  gameState
+  data
 })
 

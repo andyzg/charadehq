@@ -3,7 +3,7 @@ import { SET_USER_STATE, SET_STATE, SET_VOTE } from '../actions/faker'
 import { PENDING, ALIVE, WAITING, SHOW_ROLE, FakerState } from '../models/FakerState'
 
 
-const musictionary = (state: FakerState = ({} as FakerState), action) => {
+const faker = (state: FakerState = ({} as FakerState), action) => {
   switch (action.type) {
     case INIT:
       return {
@@ -13,8 +13,8 @@ const musictionary = (state: FakerState = ({} as FakerState), action) => {
     case SET_STATE:
       return {
         ...state,
-        gameState: action.gameState,
-        players: action.state
+        gameState: action.data.gameState,
+        players: action.data.state
       }
     case SET_USER_STATE:
       return {
@@ -31,5 +31,5 @@ const musictionary = (state: FakerState = ({} as FakerState), action) => {
   }
 }
 
-export default musictionary
+export default faker
 

@@ -10,7 +10,7 @@ const musictionary = (state: MusictionaryState = {}, action) => {
         state: PENDING
       };
     case SET_STATE:
-      return action.state
+      return action.data.state
     default:
       return state;
   }

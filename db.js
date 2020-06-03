@@ -107,6 +107,11 @@ module.exports = function(client) {
     client.hmset(UUID_TO_NAME_KEY, clientUUID, name)
   }
 
+  function getName(clientUUID, cb) {
+    console.log('Get name: ', clientUUID);
+    client.hget(UUID_TO_NAME_KEY, clientUUID, cb)
+  }
+
   function getSocketIds(uuid, cb) {
     client.smembers(UUID_TO_SOCKET_PREFIX_KEY + uuid, cb);
   }
@@ -153,6 +158,7 @@ module.exports = function(client) {
     getUUIDs,
     getRoomUUIDs,
     getSocketIds,
-    getRandomUUID
+    getRandomUUID,
+    getName
   }
 }

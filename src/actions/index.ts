@@ -7,7 +7,7 @@ export const SHOW_ROLE_INFO = 'SHOW_ROLE_INFO'
 export const DISMISS_ROLE_INFO = 'DISMISS_ROLE_INFO'
 export const SET_TIMER = 'SET_TIMER'
 export const SHOW_PROMPT = 'SHOW_PROMPT'
-export const SET_USER_PENDING = 'SET_USER_PENDING'
+export const SET_USER_STATUS = 'SET_USER_STATUS'
 
 export const SUBMIT_PROMPT = 'ACTION_SUBMIT_PROMPT'
 
@@ -49,8 +49,8 @@ export const submitPrompt = (question) => ({
   question
 })
 
-export const setUserPending = (message) => ({
-  type: SET_USER_PENDING,
+export const setUserStatus = (message) => ({
+  type: SET_USER_STATUS,
   message
 })
 

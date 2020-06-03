@@ -1,7 +1,11 @@
-import { MESSAGE, SET_USER_PENDING } from '../actions/index'
+import { MESSAGE, SET_USER_STATUS } from '../actions/index'
 import { Message } from '../models/Message'
 
 
+// message: string
+// uuid: string
+// name: string
+// datetime: date
 const messages = (state: Message[] = [], action) => {
   switch (action.type) {
     case MESSAGE:
@@ -9,7 +13,7 @@ const messages = (state: Message[] = [], action) => {
         ...state,
         action.message
       ]
-    case SET_USER_PENDING:
+    case SET_USER_STATUS:
       return [
         ...state,
         action.message

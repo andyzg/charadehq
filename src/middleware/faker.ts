@@ -1,8 +1,9 @@
 import socket from '../socket-connection'
-import { START_GAME, SET_USER_STATE, SET_STATE, setUserState } from '../actions/faker'
-import { showRoleInfo, SUBMIT_PROMPT } from '../actions/index'
+import { START_GAME, SET_USER_STATE, SET_STATE } from '../actions/faker'
+import { showRoleInfo, SUBMIT_PROMPT, setUserStatus } from '../actions/index'
 import { SHOW_ROLE } from '../models/FakerState'
 import profile from '../util/profile'
+import uuidUtil from '../util/uuid'
 
 
 export default store => next => action => {
@@ -18,10 +19,14 @@ export default store => next => action => {
         });
         break;
       case SET_STATE:
-        console.log('Set state: ', action.state);
-        switch (action.event) {
-          case (START_GAME):
+        console.log('Set state: ', action.data.state);
+        switch (action.data.event) {
+          case START_GAME:
             store.dispatch(showRoleInfo())
+            break;
+          case SUBMIT_PROMPT:
+            console.log('User has submitted a prompt');
+            store.dispatch(setUserStatus(action.data.payload))
             break;
         }
         break
@@ -35,7 +40,13 @@ export default store => next => action => {
           event: SUBMIT_PROMPT,
           room: store.getState().session.room,
           source: profile.getUUID(),
-          name: profile.getName()
+          name: profile.getName(),
+          payload: {
+            message: action.question,
+            datetime: new Date(),
+            name: profile.getName(),
+            messageUUID: uuidUtil.createUUID()
+          }
         });
         break
       default:

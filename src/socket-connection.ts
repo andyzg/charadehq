@@ -1,5 +1,5 @@
 import store from './store'
-import { onMessage, refreshParticipants, setTimer, showPrompt, setUserPending } from './actions/index'
+import { onMessage, refreshParticipants, setTimer, showPrompt, setUserStatus } from './actions/index'
 import { setState, setUserState } from './actions/faker'
 import profile from './util/profile'
 
@@ -31,11 +31,8 @@ socket.on('connect', () => {
   });
 
   socket.on('game-change', (data) => {
-    store.dispatch(setState({
-      event: data.event,
-      state: data.event,
-      gameState: data.gameState
-    }));
+    console.log('GAME CHANGE!', data);
+    store.dispatch(setState(data));
   });
 
   socket.on('user-change', (data) => {
@@ -54,9 +51,8 @@ socket.on('connect', () => {
     console.log('Faker prompt');
     if (data.source === profile.getUUID()) {
       store.dispatch(showPrompt(data));
-    } else {
-      store.dispatch(setUserPending(data));
     }
+    store.dispatch(setUserStatus(data));
   });
 });
 
