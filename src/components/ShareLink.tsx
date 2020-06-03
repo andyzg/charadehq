@@ -23,7 +23,7 @@ class ShareLink extends React.Component<any, any> {
           <div className="sharelink__group input-group mb-3">
             <input disabled={true} readOnly={true} onChange={this.handleChange} type="text" className="form-control sharelink__input" value={url} aria-label="Invite link" aria-describedby="Invite link" />
             <div className="input-group-append">
-              <button className="btn nameinput__button" type="button">Copy invite</button>
+              <button className="button-primary btn" type="button">Copy invite</button>
             </div>
           </div>
         </CopyToClipboard>

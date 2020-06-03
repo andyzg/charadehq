@@ -1,7 +1,6 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
-class Prompt extends React.Component<any, any> {
+class Input extends React.Component<any, any> {
   constructor(props) {
     super(props);
 
@@ -16,21 +15,20 @@ class Prompt extends React.Component<any, any> {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.submitPrompt(this.state.value)
+    this.props.submit(this.state.value)
   }
 
   render() {
-    if (!this.props.showPrompt) {
+    if (this.props.hide) {
       return null;
     }
 
     return (
       <div className="prompt">
-        Prompt
         <div className="input-group mb-3">
-          <input type="text" placeholder="How many times did you...?" className="form-control" value={this.state.value} onChange={this.handleChange} aria-label="Message" aria-describedby="Input for prompt" />
+          <input type="text" placeholder={this.props.placeholder} className="form-control" value={this.state.value} onChange={this.handleChange} aria-label="Message" aria-describedby="Input for prompt" />
           <div className="input-group-append">
-            <button onClick={this.handleSubmit} className="button-primary btn btn-outline-secondary" type="button">Button</button>
+            <button onClick={this.handleSubmit} className="button-primary btn btn-outline-secondary" type="button">{this.props.submitText}</button>
           </div>
         </div>
       </div>
@@ -38,4 +36,4 @@ class Prompt extends React.Component<any, any> {
   }
 }
 
-export default Prompt
+export default Input

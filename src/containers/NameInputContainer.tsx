@@ -1,18 +1,19 @@
 import { connect } from 'react-redux'
-import { submitPrompt } from '../actions/index'
+import { setName } from '../actions/index'
 import Input from '../components/Input'
 
 const mapStateToProps = (state, ownProps) => ({
-  hide: !(state.session.promptModal),
-  placeholder: 'How many times did you...?',
-  submitText: 'Submit prompt'
+  hide: false,
+  placeholder: "What's your name?",
+  submitText: 'Submit'
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  submit: (q) => { dispatch(submitPrompt(q)) }
+  submit: (name) => { dispatch(setName(name)) }
 })
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Input)
+

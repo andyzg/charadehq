@@ -1,4 +1,3 @@
-import socket from '../socket-connection'
 import faker from '../util/faker'
 import { START_GAME, SET_USER_STATE, SET_STATE } from '../actions/faker'
 import { showRoleInfo, SUBMIT_PROMPT, setUserStatus } from '../actions/index'
