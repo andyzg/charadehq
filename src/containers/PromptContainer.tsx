@@ -1,15 +1,16 @@
 import { connect } from 'react-redux'
-import { PENDING } from '../models/FakerState'
-import Header from '../components/Header'
+import { submitPrompt } from '../actions/index'
+import Prompt from '../components/Prompt'
 
 const mapStateToProps = (state, ownProps) => ({
-  showHeader: state.faker.gameState === PENDING,
+  showPrompt: state.session.promptModal
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
+  submitPrompt: (q) => { dispatch(submitPrompt(q)) }
 })
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Header)
+)(Prompt)

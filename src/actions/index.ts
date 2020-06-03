@@ -7,7 +7,9 @@ export const SHOW_ROLE_INFO = 'SHOW_ROLE_INFO'
 export const DISMISS_ROLE_INFO = 'DISMISS_ROLE_INFO'
 export const SET_TIMER = 'SET_TIMER'
 export const SHOW_PROMPT = 'SHOW_PROMPT'
-export const SUBMIT_PROMPT = 'SUBMIT_PROMPT'
+export const SET_USER_PENDING = 'SET_USER_PENDING'
+
+export const SUBMIT_PROMPT = 'ACTION_SUBMIT_PROMPT'
 
 
 export const init = () => ({
@@ -42,8 +44,14 @@ export const showPrompt = (data) => ({
   data
 })
 
-export const submitPrompt = () => ({
+export const submitPrompt = (question) => ({
   type: SUBMIT_PROMPT,
+  question
+})
+
+export const setUserPending = (message) => ({
+  type: SET_USER_PENDING,
+  message
 })
 
 export const refreshParticipants= (participants) => ({

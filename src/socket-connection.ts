@@ -1,5 +1,5 @@
 import store from './store'
-import { onMessage, refreshParticipants, setTimer, showPrompt } from './actions/index'
+import { onMessage, refreshParticipants, setTimer, showPrompt, setUserPending } from './actions/index'
 import { setState, setUserState } from './actions/faker'
 import profile from './util/profile'
 
@@ -52,9 +52,12 @@ socket.on('connect', () => {
 
   socket.on('faker-prompt-question', (data) => {
     console.log('Faker prompt');
-    store.dispatch(showPrompt(data));
+    if (data.source === profile.getUUID()) {
+      store.dispatch(showPrompt(data));
+    } else {
+      store.dispatch(setUserPending(data));
+    }
   });
-
 });
 
 export default socket

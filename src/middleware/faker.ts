@@ -1,7 +1,8 @@
 import socket from '../socket-connection'
 import { START_GAME, SET_USER_STATE, SET_STATE, setUserState } from '../actions/faker'
-import { showRoleInfo } from '../actions/index'
+import { showRoleInfo, SUBMIT_PROMPT } from '../actions/index'
 import { SHOW_ROLE } from '../models/FakerState'
+import profile from '../util/profile'
 
 
 export default store => next => action => {
@@ -11,7 +12,9 @@ export default store => next => action => {
         socket.emit('game-change', {
           ...store.getState().faker,
           event: START_GAME,
-          room: store.getState().session.room
+          room: store.getState().session.room,
+          source: profile.getUUID(),
+          name: profile.getName()
         });
         break;
       case SET_STATE:
@@ -24,6 +27,17 @@ export default store => next => action => {
         break
       case SET_USER_STATE:
         console.log('SET USER STATE: ', action);
+        break
+      case SUBMIT_PROMPT:
+        console.log('Submit prompt');
+        socket.emit('game-change', {
+          ...store.getState().faker,
+          event: SUBMIT_PROMPT,
+          room: store.getState().session.room,
+          source: profile.getUUID(),
+          name: profile.getName()
+        });
+        break
       default:
     }
     next(action)

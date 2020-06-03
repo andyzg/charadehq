@@ -4,6 +4,7 @@ let db = require('../db')(client);
 let io = require('../socket-connection');
 // ACTIONS
 const ACTION_START_GAME = 'ACTION_FAKER_START_GAME'
+const ACTION_SUBMIT_PROMPT = 'ACTION_SUBMIT_PROMPT'
 
 // GAME STATES
 const START_GAME = 'STATE_START_GAME'
@@ -67,12 +68,24 @@ function startGame(data) {
     });
   });
 
+
+  // Prompt one person to submit a question
   db.getRandomUUID(data.room, (err, uuid) => {
-    db.getSocketIds(uuid, (err, resp) => {
-      for (let i of resp) {
-        io.getIo().to(i).emit('faker-prompt-question', {
-          // TODO: Add examples
-          message: 'Add question'
+    let message = {
+      // TODO: Add examples
+      source: data.source,
+      name: data.name,
+      datetime: new Date(),
+      message: data.name + ' is writing a prompt'
+    };
+
+    // Send to everyone
+    db.getRoomUUIDs(data.room, (err, uuids) => {
+      for (let i of uuids) {
+        db.getSocketIds(i, (err, socketId) => {
+          for (let i of socketId) {
+            io.getIo().to(i).emit('faker-prompt-question', message);
+          }
         });
       }
     });
@@ -85,12 +98,27 @@ function startGame(data) {
   }
 }
 
+function submitPrompt(data) {
+  console.log('Submit prompt: ', data);
+  return data;
+}
+
 module.exports = {
   onGameChange: function(state) {
+    // State:
+    // gameState: string
+    // userState: string
+    // voted: uuid
+    // source:
+    // players: state
+    // event: string
+    // room: string
     switch (state.event) {
       case ACTION_START_GAME:
         console.log('Start game');
         return startGame(state);
+      case ACTION_SUBMIT_PROMPT:
+        return submitPrompt(state);
       default:
         return state;
     }
