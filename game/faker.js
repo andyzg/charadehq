@@ -60,12 +60,6 @@ function setupTimer(room, seconds, cb) {
 
 function startGame(data) {
   createRoles(data.room, 1);
-  setupTimer(data.room, 5, () => {
-    // Send out the questions
-    io.getIo().to(data.room).emit('game-change', {
-    });
-  });
-
 
   // Prompt one person to submit a question
   db.getRandomUUID(data.room, (err, uuid) => {
@@ -75,7 +69,8 @@ function startGame(data) {
         source: uuid,
         name: name,
         datetime: new Date(),
-        message: name + ' is writing a prompt'
+        message: name + ' is writing a prompt',
+        type: 'STATUS'
       };
 
       // Send to everyone
@@ -116,13 +111,13 @@ function submitPrompt(data) {
 module.exports = {
   onGameChange: function(state) {
     // State:
-    // gameState: string
-    // userState: string
-    // voted: uuid
-    // source:
-    // players: state
-    // event: string
-    // room: string
+    //   gameState: string
+    //   userState: string
+    //   voted: uuid
+    //   source:
+    //   players: state
+    //   event: string
+    //   room: string
     switch (state.event) {
       case ACTION_START_GAME:
         console.log('Start game');

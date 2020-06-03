@@ -10,7 +10,8 @@ export default store => next => action => {
         message: action.message,
         uuid: profile.getUUID(),
         name: profile.getName(),
-        datetime: new Date()
+        datetime: new Date(),
+        type: 'MESSAGE'
       });
     }
     next(action)

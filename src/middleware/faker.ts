@@ -45,7 +45,8 @@ export default store => next => action => {
             message: action.question,
             datetime: new Date(),
             name: profile.getName(),
-            messageUUID: uuidUtil.createUUID()
+            messageUUID: uuidUtil.createUUID(),
+            type: 'STATUS'
           }
         });
         break
