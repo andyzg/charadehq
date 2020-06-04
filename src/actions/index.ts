@@ -8,6 +8,7 @@ export const DISMISS_ROLE_INFO = 'DISMISS_ROLE_INFO'
 export const SET_TIMER = 'SET_TIMER'
 export const SHOW_PROMPT = 'SHOW_PROMPT'
 export const SET_USER_STATUS = 'SET_USER_STATUS'
+export const SET_ALL_STATUS = 'SET_ALL_STATUS'
 export const SUBMIT_ANSWER = 'SUBMIT_ANSWER'
 
 export const SUBMIT_PROMPT = 'ACTION_SUBMIT_PROMPT'
@@ -48,6 +49,11 @@ export const showPrompt = (data) => ({
 export const submitPrompt = (question) => ({
   type: SUBMIT_PROMPT,
   question
+})
+
+export const setAllStatus = (data) => ({
+  type: SET_ALL_STATUS,
+  data
 })
 
 export const setUserStatus = (message) => ({

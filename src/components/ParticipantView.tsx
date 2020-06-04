@@ -27,8 +27,18 @@ class ParticipantView extends React.Component<any, any> {
       style = {backgroundColor: '#09f'};
     }
 
+    let statusBar = null;
+    if (this.props.participant.status) {
+      statusBar = (
+        <div className='participant-view__status'>
+          {this.props.participant.status}
+        </div>
+      );
+    }
+
     return (
       <div onClick={this.handleClick} className="participant-view">
+        {statusBar}
         <div className="participant-view__avatar" style={style}>
         </div>
         {(isMe ? '(You) ' : '') + this.props.participant.name}
