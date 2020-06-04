@@ -67,12 +67,12 @@ module.exports = {
           console.log('constructParticipants WE GOT A PROBLEM!');
         }
 
-        let data = []
+        let data = {}
         for (let i = 0; i < uuids.length; i++) {
-          data.push({
+          data[uuids[i]] = {
             name: names[i],
             uuid: uuids[i]
-          });
+          };
         }
         return data
       }
