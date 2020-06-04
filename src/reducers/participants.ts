@@ -1,5 +1,6 @@
-import { REFRESH_PARTICIPANTS, SET_ALL_STATUS } from '../actions/index'
+import { SUBMIT_ANSWER, REFRESH_PARTICIPANTS, SET_ALL_STATUS } from '../actions/index'
 import { Participant } from '../models/Participant'
+import profile from '../util/profile'
 
 
 const participants = (state: any[] = [], action) => {
@@ -26,6 +27,15 @@ const participants = (state: any[] = [], action) => {
           uuid: state[i].uuid,
           status: action.data[i]
         };
+      }
+      return newState
+    case SUBMIT_ANSWER:
+      newState = {
+        ...state,
+        [profile.getUUID()]: {
+          ...state[profile.getUUID()],
+          status: action.answer
+        }
       }
       return newState
     default:
