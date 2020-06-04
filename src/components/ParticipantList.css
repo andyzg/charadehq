@@ -3,4 +3,5 @@
   margin-top: 32px;
   display: flex;
   min-height: 300px;
+  align-items: flex-start;
 }

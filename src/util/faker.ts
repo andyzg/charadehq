@@ -21,5 +21,13 @@ export default {
       answer: answer
     });
     console.log('Faker util: ', answer!)
+  },
+  submitVote: function(store, target) {
+    socket.emit('faker-vote', {
+      room: store.getState().session.room,
+      source: profile.getUUID(),
+      name: profile.getName(),
+      target: target
+    });
   }
 }

@@ -21,6 +21,7 @@ const END = 'STATE_END'
 
 function createRoles(room, num) {
   fakerdb.addFakers(room, num, (err, fakers) => {
+    // Assign all of the faker roles to socket ids
     for (let f of fakers) {
       db.getSocketIds(f, (err, socketIds) => {
         for (let i of socketIds) {
@@ -31,6 +32,7 @@ function createRoles(room, num) {
       });
     }
 
+    // Assign all of the real roles to socket ids
     db.getRoomUUIDs(room, (err, uuids) => {
       for (let i of uuids) {
         if (fakers.includes(i)) {
@@ -110,6 +112,20 @@ function submitPrompt(data) {
         payload: resp
       });
       fakerdb.flushAnswers(data.room);
+
+      // Get votes in another 5 seconds
+      setupTimer(data.room, 5, () => {
+        fakerdb.getVotes(data.room, (err, resp) => {
+          console.log('Votes: ', resp);
+          // TODO:
+          io.getIo().to(data.room).emit('game-change', {
+            ...data,
+            event: START_GAME,
+            gameState: QUESTION,
+          });
+          fakerdb.flushVotes(data.room);
+        });
+      });
     });
   });
 

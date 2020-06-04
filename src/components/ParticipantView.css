@@ -1,17 +1,36 @@
 .participant-view {
   width: 150px;
-  height: 100px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  border: 1px solid rgba(0,0,0,.1);
+
+  margin: 4px;
+  padding: 8px 0;
 }
 
 .participant-view__avatar {
   border-radius: 50%;
   background-color: #FF5967;
-  width: 64px;
-  height: 64px;
+  width: 16px;
+  height: 16px;
   margin-bottom: 8px;
+  margin: 4px 4px 4px 8px;
+}
+
+.participant-view__row {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.participant-view__name {
+  width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .participant-view__status {

@@ -5,6 +5,7 @@ let client = require('./redis-client').getClient();
 let db = require('./db')(client);
 const ROOM_TO_FAKERS_PREFIX = 'room-to-fakers';
 const UUID_TO_ANSWER_PREFIX = 'uuid-to-answer';
+const UUID_TO_VOTE_PREFIX = 'uuid-to-vote';
 
 module.exports = function(client) {
 
@@ -13,6 +14,9 @@ module.exports = function(client) {
 
   // UUID to answer, prefixed with room id
   let UUID_TO_ANSWER_PREFIX_KEY = DEV_PREFIX + UUID_TO_ANSWER_PREFIX;
+
+  // UUID to answer, prefixed with room id
+  let UUID_TO_VOTE_PREFIX_KEY = DEV_PREFIX + UUID_TO_VOTE_PREFIX;
 
   function getRandom(array, n) {
     // Shuffle array
@@ -44,10 +48,26 @@ module.exports = function(client) {
     client.del(UUID_TO_ANSWER_PREFIX_KEY + r);
   }
 
+  function addVote(r, uuid, target) {
+    console.log('Adding vote: ', r, uuid, target);
+    client.hmset(UUID_TO_VOTE_PREFIX_KEY + r, uuid, target);
+  }
+
+  function getVotes(r, cb) {
+    client.hgetall(UUID_TO_VOTE_PREFIX_KEY + r, cb);
+  }
+
+  function flushVotes(r) {
+    client.del(UUID_TO_VOTE_PREFIX_KEY + r);
+  }
+
   return {
     addFakers,
     addAnswer,
     getAnswers,
-    flushAnswers
+    flushAnswers,
+    addVote,
+    getVotes,
+    flushVotes
   }
 }

@@ -39,9 +39,13 @@ class ParticipantView extends React.Component<any, any> {
     return (
       <div onClick={this.handleClick} className="participant-view">
         {statusBar}
-        <div className="participant-view__avatar" style={style}>
-        </div>
-        {(isMe ? '(You) ' : '') + this.props.participant.name}
+        <div className="participant-view__row">
+          <div className="participant-view__avatar" style={style}>
+          </div>
+          <span className="participant-view__name">{(isMe ? '(You) ' : '') + this.props.participant.name}</span>
+          </div>
+          <div className="participant-view__voted-box">
+          </div>
       </div>
     );
   }

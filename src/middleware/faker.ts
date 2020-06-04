@@ -1,5 +1,5 @@
 import faker from '../util/faker'
-import { START_GAME, SET_USER_STATE, SET_STATE, setQuestion } from '../actions/faker'
+import { SET_VOTE, START_GAME, SET_USER_STATE, SET_STATE, setQuestion } from '../actions/faker'
 import { showRoleInfo, SUBMIT_PROMPT, setUserStatus, SUBMIT_ANSWER } from '../actions/index'
 import { SHOW_ROLE } from '../models/FakerState'
 import profile from '../util/profile'
@@ -43,7 +43,10 @@ export default store => next => action => {
           break;
       case SUBMIT_ANSWER:
         faker.submitAnswer(store, action.answer);
-        break
+        break;
+      case SET_VOTE:
+        faker.submitVote(store, action.uuid);
+        break;
       default:
     }
     next(action)

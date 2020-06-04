@@ -95,6 +95,11 @@ module.exports = {
         fakerdb.addAnswer(data.room, data.source, data.answer);
       }
 
+      function onVote(data) {
+        console.log('On vote', data);
+        fakerdb.addVote(data.room, data.source, data.target);
+      }
+
       socket.join(r, (err) => {
         if (err) { console.log(err); }
         refreshParticipants();
@@ -123,8 +128,10 @@ module.exports = {
         socket.on('get-participants', getParticipants);
         socket.on('set-name', setName);
         socket.on('set-uuid', setUUID);
+
         socket.on('game-change', onGameChange);
         socket.on('faker-submit-answer', onSubmitAnswer);
+        socket.on('faker-vote', onVote);
       });
     });
   }
