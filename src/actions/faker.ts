@@ -2,6 +2,7 @@ export const START_GAME = 'ACTION_FAKER_START_GAME'
 export const SET_STATE = 'FAKER_SET_STATE'
 export const SET_USER_STATE = 'FAKER_SET_USER_STATE'
 export const SET_VOTE = 'SET_VOTE'
+export const SET_QUESTION = 'SET_QUESTION'
 
 
 export const startGame = () => ({
@@ -23,3 +24,7 @@ export const setState = (data) => ({
   data
 })
 
+export const setQuestion = (data) => ({
+  type: SET_QUESTION,
+  question: data
+});

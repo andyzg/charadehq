@@ -48,7 +48,7 @@ socket.on('connect', () => {
   });
 
   socket.on('faker-prompt-question', (data) => {
-    console.log('Faker prompt');
+    console.log('Faker prompt', data.source, profile.getUUID());
     if (data.source === profile.getUUID()) {
       store.dispatch(showPrompt(data));
     }

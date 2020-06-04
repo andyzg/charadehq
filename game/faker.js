@@ -6,6 +6,9 @@ let io = require('../socket-connection');
 const ACTION_START_GAME = 'ACTION_FAKER_START_GAME'
 const ACTION_SUBMIT_PROMPT = 'ACTION_SUBMIT_PROMPT'
 
+// Events
+const START_VOTE = 'EVENT_START_VOTE'
+
 // GAME STATES
 const START_GAME = 'STATE_START_GAME'
 const PENDING = 'STATE_PENDING'
@@ -52,6 +55,7 @@ function setupTimer(room, seconds, cb) {
     io.getIo().to(room).emit('timer', secondsRemaining);
 
     if (secondsRemaining <= 0) {
+      cb();
       clearInterval(interval);
     }
     secondsRemaining -= 1
@@ -96,8 +100,16 @@ function submitPrompt(data) {
   console.log('Submit prompt: ', data);
 
   setupTimer(data.room, 5, () => {
-    // Send out the questions
-    io.getIo().to(data.room).emit('game-change', {
+    fakerdb.getAnswers(data.room, (err, resp) => {
+      console.log('Get answers callback: ', resp);
+      // Send out the questions
+      io.getIo().to(data.room).emit('game-change', {
+        ...data,
+        event: START_VOTE,
+        gameState: VOTE,
+        payload: resp
+      });
+      fakerdb.flushAnswers(data.room);
     });
   });
 

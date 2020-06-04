@@ -8,6 +8,7 @@ export const DISMISS_ROLE_INFO = 'DISMISS_ROLE_INFO'
 export const SET_TIMER = 'SET_TIMER'
 export const SHOW_PROMPT = 'SHOW_PROMPT'
 export const SET_USER_STATUS = 'SET_USER_STATUS'
+export const SUBMIT_ANSWER = 'SUBMIT_ANSWER'
 
 export const SUBMIT_PROMPT = 'ACTION_SUBMIT_PROMPT'
 
@@ -62,4 +63,9 @@ export const refreshParticipants= (participants) => ({
 export const setTimer = (timer) => ({
   type: SET_TIMER,
   timer
+})
+
+export const submitAnswer = (answer) => ({
+  type: SUBMIT_ANSWER,
+  answer
 })

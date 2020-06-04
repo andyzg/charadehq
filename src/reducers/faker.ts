@@ -1,5 +1,5 @@
 import { INIT } from '../actions/index'
-import { SET_USER_STATE, SET_STATE, SET_VOTE } from '../actions/faker'
+import { SET_USER_STATE, SET_STATE, SET_VOTE, SET_QUESTION } from '../actions/faker'
 import { PENDING, ALIVE, WAITING, SHOW_ROLE, FakerState } from '../models/FakerState'
 
 
@@ -10,11 +10,15 @@ const faker = (state: FakerState = ({} as FakerState), action) => {
         gameState: PENDING,
         userState: WAITING
       };
+    case SET_QUESTION:
+      return {
+        ...state,
+        question: action.question
+      }
     case SET_STATE:
       return {
         ...state,
         gameState: action.data.gameState,
-        players: action.data.state
       }
     case SET_USER_STATE:
       return {

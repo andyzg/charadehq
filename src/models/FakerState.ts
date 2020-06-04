@@ -1,3 +1,4 @@
+// Game states
 export const START_GAME = 'STATE_START_GAME'
 export const PENDING = 'STATE_PENDING'
 export const QUESTION = 'STATE_QUESTION'
@@ -6,6 +7,9 @@ export const DISCUSS = 'STATE_DISCUSS'
 export const VOTE = 'STATE_VOTE'
 export const REVEAL = 'STATE_REVEAL'
 export const END = 'STATE_END'
+
+// Events
+export const START_VOTE = 'EVENT_START_VOTE'
 
 export const ROLE_OUT = 'ROLE_OUT'
 export const ROLE_REAL = 'ROLE_REAL'

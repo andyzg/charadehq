@@ -2,7 +2,6 @@ import React from 'react'
 import profile from '../util/profile'
 import { connect } from 'react-redux'
 import { setName } from '../actions/index'
-import Answer from './Answer'
 import './ParticipantView.css'
 
 class ParticipantView extends React.Component<any, any> {
@@ -33,7 +32,6 @@ class ParticipantView extends React.Component<any, any> {
         <div className="participant-view__avatar" style={style}>
         </div>
         {(isMe ? '(You) ' : '') + this.props.participant.name}
-        {(isMe ? <Answer /> : null)}
       </div>
     );
   }

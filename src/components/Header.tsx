@@ -1,5 +1,6 @@
 import React from 'react'
 import NameInputContainer from '../containers/NameInputContainer'
+import AnswerContainer from '../containers/AnswerContainer'
 import ShareLink from './ShareLink'
 import StartButton from '../containers/StartButton'
 import { PENDING } from '../models/MusictionaryState'
@@ -13,7 +14,8 @@ class Header extends React.Component<any, any> {
 
   render() {
     let pending = this.props.showHeader
-
+    let answerQuestion = this.props.answerQuestion
+    console.log('Answer question: ', this.props.answerQuestion);
 
     if (pending) {
       return (
@@ -29,6 +31,7 @@ class Header extends React.Component<any, any> {
         <div className="pregame-header">
           <TimerContainer />
           <PromptContainer />
+          { answerQuestion ? <AnswerContainer /> : null}
         </div>
       );
     }

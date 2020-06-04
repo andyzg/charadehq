@@ -1,5 +1,6 @@
 var client = require('./redis-client').getClient();
 var db = require('./db')(client);
+var fakerdb = require('./faker-db')(client);
 var faker = require('./game/faker');
 
 module.exports = {
@@ -16,7 +17,6 @@ module.exports = {
         db.deleteConnection(socket.id);
         refreshParticipants();
 
-        socket.removeListener('hello', onHello);
         socket.disconnect();
       }
 
@@ -28,10 +28,6 @@ module.exports = {
             name: data.name
           });
         });
-      }
-
-      function onHello(data) {
-        io.to(r).emit('test', data);
       }
 
       function getRoomSockets() {
@@ -94,6 +90,11 @@ module.exports = {
         });
       }
 
+      function onSubmitAnswer(data) {
+        console.log('On submit answer', data);
+        fakerdb.addAnswer(data.room, data.source, data.answer);
+      }
+
       socket.join(r, (err) => {
         if (err) { console.log(err); }
         refreshParticipants();
@@ -118,12 +119,12 @@ module.exports = {
 
         // Events
         socket.on('disconnect', onDisconnect);
-        socket.on('hello', onHello);
         socket.on('message', onMessage);
         socket.on('get-participants', getParticipants);
         socket.on('set-name', setName);
         socket.on('set-uuid', setUUID);
         socket.on('game-change', onGameChange);
+        socket.on('faker-submit-answer', onSubmitAnswer);
       });
     });
   }
