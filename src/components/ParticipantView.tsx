@@ -23,6 +23,7 @@ class ParticipantView extends React.Component<any, any> {
   render() {
     let isMe = this.props.myUUID === this.props.participant.uuid;
     let style = null;
+    console.log(this.props);
     if (this.props.voted === this.props.participant.uuid) {
       style = {backgroundColor: '#09f'};
     }
@@ -36,6 +37,17 @@ class ParticipantView extends React.Component<any, any> {
       );
     }
 
+    let votes = []
+    if (this.props.participant.votes) {
+      for (let i in this.props.participant.votes) {
+        votes.push(
+          <div key={i}>
+            {this.props.names[i]}
+          </div>
+        );
+      }
+    }
+
     return (
       <div onClick={this.handleClick} className="participant-view">
         {statusBar}
@@ -44,7 +56,10 @@ class ParticipantView extends React.Component<any, any> {
           </div>
           <span className="participant-view__name">{(isMe ? '(You) ' : '') + this.props.participant.name}</span>
           </div>
+          {votes.length > 0 ? <span className="participant-view__votes-title">Votes:</span> : null}
           <div className="participant-view__voted-box">
+
+            {votes}
           </div>
       </div>
     );

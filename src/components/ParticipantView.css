@@ -6,7 +6,7 @@
   border: 1px solid rgba(0,0,0,.1);
 
   margin: 4px;
-  padding: 8px 0;
+  padding: 8px;
 }
 
 .participant-view__avatar {
@@ -15,7 +15,7 @@
   width: 16px;
   height: 16px;
   margin-bottom: 8px;
-  margin: 4px 4px 4px 8px;
+  margin: 4px;
 }
 
 .participant-view__row {
@@ -43,4 +43,15 @@
 
   position: absolute;
   top: -16px;
+}
+
+.participant-view__votes-title {
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 8px;
+}
+
+.participant-view__voted-box {
+  font-size: 12px;
 }

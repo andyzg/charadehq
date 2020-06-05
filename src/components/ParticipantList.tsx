@@ -31,7 +31,7 @@ class ParticipantList extends React.Component<any, any> {
 
     for (let i in this.props.participants) {
       list.push(
-        <ParticipantViewContainer participant={this.props.participants[i]} key={i} />
+        <ParticipantViewContainer participantUUID={i} key={i} />
       )
     }
 

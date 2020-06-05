@@ -32,19 +32,21 @@ const participants = (state: any[] = [], action) => {
       }
       return newState
     case SET_VOTE:
-      let votes = []
+      let votes = {}
       if (state[action.uuid].votes) {
-        votes = state[action.uuid].votes
+        votes = {
+          ...state[action.uuid].votes
+        }
       }
 
       newState = {
         ...state,
         [action.uuid]: {
           ...state[action.uuid],
-          votes: [
+          votes: {
             ...votes,
-            action.uuid
-          ]
+            [action.uuid]: true
+          }
         }
       }
       return newState
