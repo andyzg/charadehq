@@ -8,6 +8,7 @@ const ACTION_SUBMIT_PROMPT = 'ACTION_SUBMIT_PROMPT'
 
 // Events
 const START_VOTE = 'EVENT_START_VOTE'
+const SHOW_VOTE = 'EVENT_SHOW_VOTE'
 
 // GAME STATES
 const START_GAME = 'STATE_START_GAME'
@@ -16,7 +17,8 @@ const QUESTION = 'STATE_QUESTION'
 const ANSWER = 'STATE_ANSWER'
 const DISCUSS = 'STATE_DISCUSS'
 const VOTE = 'STATE_VOTE'
-const REVEAL = 'STATE_REVEAL'
+const REVEAL_VOTES = 'STATE_REVEAL_VOTES'
+const REVEAL_WINNERS = 'STATE_REVEAL_WINNERS'
 const END = 'STATE_END'
 
 function createRoles(room, num) {
@@ -115,14 +117,39 @@ function submitPrompt(data) {
 
       // Get votes in another 5 seconds
       setupTimer(data.room, 5, () => {
-        fakerdb.getVotes(data.room, (err, resp) => {
-          console.log('Votes: ', resp);
-          // TODO:
-          io.getIo().to(data.room).emit('game-change', {
-            ...data,
-            event: START_GAME,
-            gameState: QUESTION,
+        // 1. Figure out who voted for who
+        // 2. Figure out who's the faker
+        // 3. Send the results to clients
+        fakerdb.getVotes(data.room, (err, votes) => {
+          console.log('Votes: ', votes);
+
+          fakerdb.getFakers(data.room, (err, fakers) => {
+            // Sum up all of the votes
+            let voteCounter = {}
+            for (let i in votes) {
+              if (!voteCounter[votes[i]]) { voteCounter[votes[i]] = 0; }
+              voteCounter[votes[i]] += 1
+            }
+
+            // Get the key with most votes
+            // TODO: This assumes that there's only one faker
+            let target = Object.keys(voteCounter).reduce((a, b) => voteCounter[a] > voteCounter[b] ? a : b);
+            console.log('Vote counter: ', voteCounter, target);
+            console.log('Calculating winner: ', fakers, votes);
+            let win = fakers.includes(target);
+
+            io.getIo().to(data.room).emit('game-change', {
+              ...data,
+              event: SHOW_VOTE,
+              gameState: REVEAL_VOTES,
+              payload: {
+                votes,
+                win
+              }
+            });
           });
+
+          // Votes are ephemeral, remove once done with
           fakerdb.flushVotes(data.room);
         });
       });

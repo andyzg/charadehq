@@ -5,11 +5,12 @@ export const QUESTION = 'STATE_QUESTION'
 export const ANSWER = 'STATE_ANSWER'
 export const DISCUSS = 'STATE_DISCUSS'
 export const VOTE = 'STATE_VOTE'
-export const REVEAL = 'STATE_REVEAL'
+export const REVEAL_WINNERES = 'STATE_REVEAL_WINNERS'
 export const END = 'STATE_END'
 
 // Events
 export const START_VOTE = 'EVENT_START_VOTE'
+export const SHOW_VOTE = 'EVENT_SHOW_VOTE'
 
 export const ROLE_OUT = 'ROLE_OUT'
 export const ROLE_REAL = 'ROLE_REAL'

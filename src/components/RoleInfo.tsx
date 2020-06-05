@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import './RoleInfo.css';
 import { ROLE_REAL } from '../models/FakerState'
 import DismissRoleInfo from '../containers/faker/DismissRoleInfo'

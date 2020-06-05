@@ -23,7 +23,6 @@ class ParticipantView extends React.Component<any, any> {
   render() {
     let isMe = this.props.myUUID === this.props.participant.uuid;
     let style = null;
-    console.log(this.props);
     if (this.props.voted === this.props.participant.uuid) {
       style = {backgroundColor: '#09f'};
     }

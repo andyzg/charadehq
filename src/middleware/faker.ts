@@ -1,7 +1,7 @@
 import faker from '../util/faker'
 import { SET_VOTE, START_GAME, SET_USER_STATE, SET_STATE, setQuestion } from '../actions/faker'
-import { showRoleInfo, SUBMIT_PROMPT, setUserStatus, SUBMIT_ANSWER } from '../actions/index'
-import { SHOW_ROLE } from '../models/FakerState'
+import { setPayload, SET_PAYLOAD, showRoleInfo, SUBMIT_PROMPT, setUserStatus, SUBMIT_ANSWER } from '../actions/index'
+import { SHOW_VOTE, SHOW_ROLE } from '../models/FakerState'
 import profile from '../util/profile'
 import uuidUtil from '../util/uuid'
 
@@ -24,6 +24,10 @@ export default store => next => action => {
           case SUBMIT_PROMPT:
             console.log('Submit prompt payload: ', action.data.payload);
             store.dispatch(setQuestion(action.data.payload.message))
+            break;
+          case SHOW_VOTE:
+            store.dispatch(setPayload(action.data.payload));
+          break;
         }
         break
       case SET_USER_STATE:

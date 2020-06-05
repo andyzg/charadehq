@@ -25,8 +25,7 @@ const participants = (state: any[] = [], action) => {
           console.log('Missing UUID in participants in its reducer', i);
         }
         newState[state[i].uuid] = {
-          name: state[i].name,
-          uuid: state[i].uuid,
+          ...state[i],
           status: action.data[i]
         };
       }

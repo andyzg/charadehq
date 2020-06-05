@@ -10,6 +10,7 @@ export const SHOW_PROMPT = 'SHOW_PROMPT'
 export const SET_USER_STATUS = 'SET_USER_STATUS'
 export const SET_ALL_STATUS = 'SET_ALL_STATUS'
 export const SUBMIT_ANSWER = 'SUBMIT_ANSWER'
+export const SET_PAYLOAD = 'SET_PAYLOAD'
 
 export const SUBMIT_PROMPT = 'ACTION_SUBMIT_PROMPT'
 
@@ -69,6 +70,11 @@ export const refreshParticipants= (participants) => ({
 export const setTimer = (timer) => ({
   type: SET_TIMER,
   timer
+})
+
+export const setPayload = (payload) => ({
+  type: SET_PAYLOAD,
+  payload
 })
 
 export const submitAnswer = (answer) => ({
