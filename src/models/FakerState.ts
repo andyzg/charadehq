@@ -5,6 +5,7 @@ export const QUESTION = 'STATE_QUESTION'
 export const ANSWER = 'STATE_ANSWER'
 export const DISCUSS = 'STATE_DISCUSS'
 export const VOTE = 'STATE_VOTE'
+export const REVEAL_VOTES = 'STATE_REVEAL_VOTES'
 export const REVEAL_WINNERES = 'STATE_REVEAL_WINNERS'
 export const END = 'STATE_END'
 

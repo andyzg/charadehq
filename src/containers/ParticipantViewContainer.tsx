@@ -7,6 +7,7 @@ function getNames(state, uuid) {
   let participant = state.participants[uuid]
   let names = {}
   for (let i in participant.votes) {
+    if (!state.participants[i]) { continue; }
     names[i] = state.participants[i].name
   }
   return names;

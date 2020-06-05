@@ -30,11 +30,6 @@ const faker = (state: FakerState = ({} as FakerState), action) => {
         ...state,
         userState: action.userState
       }
-    case SET_VOTE:
-      return {
-        ...state,
-        voted: action.uuid
-      }
     default:
       return state;
   }

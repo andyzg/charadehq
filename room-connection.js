@@ -15,7 +15,7 @@ module.exports = {
       function onDisconnect() {
         console.log('user disconnected');
         db.deleteConnection(socket.id);
-        refreshParticipants();
+        refreshParticipants(r);
 
         socket.disconnect();
       }
@@ -44,12 +44,12 @@ module.exports = {
         });
       }
 
-      function setName(uuid, name) {
+      function setName(room, uuid, name) {
         if (!name) {
           return
         }
         db.setName(uuid, name);
-        refreshParticipants();
+        refreshParticipants(r);
       }
 
       function setUUID(uuid) {
@@ -62,30 +62,41 @@ module.exports = {
         io.to(r).emit('game-change', nextState);
       }
 
-      function constructParticipants(uuids, names) {
+      function constructParticipants(votes, uuids, names) {
+        console.log('Construct participants', votes);
         if (uuids.length !== names.length) {
           console.log('constructParticipants WE GOT A PROBLEM!');
         }
 
         let data = {}
         for (let i = 0; i < uuids.length; i++) {
+          let v = {}
+          for (let j in votes) {
+            if (votes[j] === uuids[i]) {
+              v[j] = true
+            }
+          }
+
           data[uuids[i]] = {
             name: names[i],
-            uuid: uuids[i]
+            uuid: uuids[i],
+            votes: v
           };
         }
         return data
       }
 
-      function refreshParticipants() {
+      function refreshParticipants(room) {
         let socketIds = getRoomSockets()
 
         db.getUUIDs(socketIds, (err, uuids) => {
           uuids = uuids.filter(Boolean);
           db.getParticipantNames(uuids, (err, reply) => {
-            if (uuids && reply) {
-              io.to(r).emit('refresh-participants', constructParticipants(uuids, reply));
-            }
+            fakerdb.getVotes(room, (err, votes) => {
+              if (uuids && reply) {
+                io.to(r).emit('refresh-participants', constructParticipants(votes, uuids, reply));
+              }
+            });
           });
         });
       }
@@ -98,11 +109,12 @@ module.exports = {
       function onVote(data) {
         console.log('On vote', data);
         fakerdb.addVote(data.room, data.source, data.target);
+        refreshParticipants(data.room);
       }
 
       socket.join(r, (err) => {
         if (err) { console.log(err); }
-        refreshParticipants();
+        refreshParticipants(r);
 
         // Connection handling
         console.log(socket.id, 'connected to ', r);
@@ -111,7 +123,7 @@ module.exports = {
         // score since that should be stored on backend
         socket.emit('get-profile', (data) => {
           if (data.name) {
-            setName(data.uuid, data.name);
+            setName(r, data.uuid, data.name);
           }
 
           setUUID(data.uuid);

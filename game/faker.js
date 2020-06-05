@@ -22,33 +22,35 @@ const REVEAL_WINNERS = 'STATE_REVEAL_WINNERS'
 const END = 'STATE_END'
 
 function createRoles(room, num) {
-  fakerdb.addFakers(room, num, (err, fakers) => {
-    // Assign all of the faker roles to socket ids
-    for (let f of fakers) {
-      db.getSocketIds(f, (err, socketIds) => {
-        for (let i of socketIds) {
-          io.getIo().to(i).emit('user-change', {
-            userState: 'ROLE_FAKER'
-          });
-        }
-      });
-    }
-
-    // Assign all of the real roles to socket ids
-    db.getRoomUUIDs(room, (err, uuids) => {
-      for (let i of uuids) {
-        if (fakers.includes(i)) {
-          continue;
-        }
-
-        db.getSocketIds(i, (err, socketIds) => {
+  fakerdb.flushFakers(room, (err, resp) => {
+    fakerdb.addFakers(room, num, (err, fakers) => {
+      // Assign all of the faker roles to socket ids
+      for (let f of fakers) {
+        db.getSocketIds(f, (err, socketIds) => {
           for (let i of socketIds) {
             io.getIo().to(i).emit('user-change', {
-              userState: 'ROLE_REAL'
+              userState: 'ROLE_FAKER'
             });
           }
         });
       }
+
+      // Assign all of the real roles to socket ids
+      db.getRoomUUIDs(room, (err, uuids) => {
+        for (let i of uuids) {
+          if (fakers.includes(i)) {
+            continue;
+          }
+
+          db.getSocketIds(i, (err, socketIds) => {
+            for (let i of socketIds) {
+              io.getIo().to(i).emit('user-change', {
+                userState: 'ROLE_REAL'
+              });
+            }
+          });
+        }
+      });
     });
   });
 }
@@ -131,7 +133,12 @@ function submitPrompt(data) {
               voteCounter[votes[i]] += 1
             }
 
+            if (Object.keys(voteCounter).length === 0) {
+              console.log('ERROR!!!! NO ONE VOTED');
+              return;
+            }
             // Get the key with most votes
+            // TODO: Fix when there are no votes
             // TODO: This assumes that there's only one faker
             let target = Object.keys(voteCounter).reduce((a, b) => voteCounter[a] > voteCounter[b] ? a : b);
             console.log('Vote counter: ', voteCounter, target);

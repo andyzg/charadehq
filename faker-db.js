@@ -39,6 +39,10 @@ module.exports = function(client) {
     client.smembers(ROOM_TO_FAKERS_PREFIX_KEY + r, cb)
   }
 
+  function flushFakers(r, cb) {
+    client.del(ROOM_TO_FAKERS_PREFIX_KEY + r, cb)
+  }
+
   function addAnswer(r, uuid, answer) {
     console.log('Adding answer: ', r, uuid, answer);
     client.hmset(UUID_TO_ANSWER_PREFIX_KEY + r, uuid, answer);
@@ -68,6 +72,7 @@ module.exports = function(client) {
   return {
     addFakers,
     getFakers,
+    flushFakers,
     addAnswer,
     getAnswers,
     flushAnswers,

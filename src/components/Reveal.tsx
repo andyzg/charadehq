@@ -1,7 +1,7 @@
 import React from 'react'
 import './Reveal.css';
 
-class RoleInfo extends React.Component<any, any> {
+class Reveal extends React.Component<any, any> {
   constructor(props) {
     super(props);
 
@@ -12,12 +12,17 @@ class RoleInfo extends React.Component<any, any> {
   }
 
   render() {
+    if (!this.props.show) {
+      return null;
+    }
+
     return (
-      <div className="roleinfo">
+      <div className="reveal">
+
       </div>
     );
   }
 }
 
-export default RoleInfo
+export default Reveal
 

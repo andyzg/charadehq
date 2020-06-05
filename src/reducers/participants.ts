@@ -8,15 +8,15 @@ const participants = (state: any[] = [], action) => {
   let newState = {}
   switch (action.type) {
     case REFRESH_PARTICIPANTS:
-      for (let i in action.participants) {
-        if (!state[i]) {
-          continue;
-        }
-        newState[i] = {
-          ...state[i],
-          ...action.participants[i]
-        }
-      }
+      // for (let i in action.participants) {
+      //   if (!state[i]) {
+      //     continue;
+      //   }
+      //   newState[i] = {
+      //     ...state[i],
+      //     ...action.participants[i]
+      //   }
+      // }
       return action.participants;
     case SET_ALL_STATUS:
       console.log(action);
@@ -28,25 +28,6 @@ const participants = (state: any[] = [], action) => {
           ...state[i],
           status: action.data[i]
         };
-      }
-      return newState
-    case SET_VOTE:
-      let votes = {}
-      if (state[action.uuid].votes) {
-        votes = {
-          ...state[action.uuid].votes
-        }
-      }
-
-      newState = {
-        ...state,
-        [action.uuid]: {
-          ...state[action.uuid],
-          votes: {
-            ...votes,
-            [action.uuid]: true
-          }
-        }
       }
       return newState
     case SUBMIT_ANSWER:

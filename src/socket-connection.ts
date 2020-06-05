@@ -1,6 +1,6 @@
 import store from './store'
 import { onMessage, refreshParticipants, setTimer, showPrompt, setUserStatus } from './actions/index'
-import { setState, setUserState } from './actions/faker'
+import { setState, setUserState, setVote } from './actions/faker'
 import profile from './util/profile'
 
 let socket = io('localhost:3000/')
@@ -13,7 +13,7 @@ socket.on('connect', () => {
   });
 
   socket.on('refresh-participants', (data) => {
-    console.log('get part: ', data);
+    console.log('refresh participants', data);
     store.dispatch(refreshParticipants(data))
   });
 
@@ -45,6 +45,10 @@ socket.on('connect', () => {
 
   socket.on('timer', (secondsRemaining) => {
     store.dispatch(setTimer(secondsRemaining));
+  });
+
+  socket.on('faker-vote', ({source, target}) => {
+
   });
 
   socket.on('faker-prompt-question', (data) => {

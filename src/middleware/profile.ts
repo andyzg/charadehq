@@ -8,7 +8,7 @@ export default store => next => action => {
     if (action.type === SET_NAME) {
       console.log('setting the name', action.name);
       Cookies.set('name', action.name, { expires: 7 })
-      socket.emit('set-name', profile.getUUID(), action.name);
+      socket.emit('set-name', store.getState().session.room, profile.getUUID(), action.name);
     }
     next(action)
   } catch (err) {

@@ -50,8 +50,9 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-top: 8px;
+  font-weight: 600;
 }
 
 .participant-view__voted-box {
-  font-size: 12px;
+  font-size: 14px;
 }
