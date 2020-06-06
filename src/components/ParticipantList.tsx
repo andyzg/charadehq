@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { setName } from '../actions/index'
 import ParticipantViewContainer from '../containers/ParticipantViewContainer'
-import RoleInfo from '../containers/RoleInfoContainer'
 import './ParticipantList.css'
 
 class ParticipantList extends React.Component<any, any> {
@@ -38,7 +37,6 @@ class ParticipantList extends React.Component<any, any> {
     console.log('Show role info');
     return (
       <div className="participant-list">
-        <RoleInfo />
         {list}
       </div>
     );

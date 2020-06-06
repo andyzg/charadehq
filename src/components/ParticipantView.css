@@ -56,3 +56,7 @@
 .participant-view__voted-box {
   font-size: 14px;
 }
+
+.participant-view__vote-button {
+  margin: 4px 0;
+}

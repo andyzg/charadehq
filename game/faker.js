@@ -2,6 +2,7 @@ var client = require('../redis-client').getClient();
 let fakerdb = require('../faker-db')(client);
 let db = require('../db')(client);
 let io = require('../socket-connection');
+let gameUtil = require('../game-util');
 // ACTIONS
 const ACTION_START_GAME = 'ACTION_FAKER_START_GAME'
 const ACTION_SUBMIT_PROMPT = 'ACTION_SUBMIT_PROMPT'
@@ -115,7 +116,6 @@ function submitPrompt(data) {
         gameState: VOTE,
         payload: resp
       });
-      fakerdb.flushAnswers(data.room);
 
       // Get votes in another 5 seconds
       setupTimer(data.room, 5, () => {
@@ -154,10 +154,23 @@ function submitPrompt(data) {
                 win
               }
             });
-          });
 
-          // Votes are ephemeral, remove once done with
-          fakerdb.flushVotes(data.room);
+            setTimeout(() => {
+              // Votes are ephemeral, remove once done with
+              fakerdb.flushVotes(data.room);
+              fakerdb.flushAnswers(data.room);
+              io.getIo().to(data.room).emit('game-change', {
+                ...data,
+                event: null,
+                gameState: QUESTION,
+                payload: {
+                  votes,
+                  win
+                }
+              });
+              gameUtil.refreshParticipants(data.room);
+            }, 5000);
+          });
         });
       });
     });

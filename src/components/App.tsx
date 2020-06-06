@@ -4,6 +4,7 @@ import ParticipantListContainer from '../containers/ParticipantListContainer'
 import Header from '../containers/HeaderContainer'
 import GameViewContainer from '../containers/game/GameViewContainer'
 import RevealContainer from '../containers/RevealContainer'
+import RoleInfo from '../containers/RoleInfoContainer'
 import './App.css';
 
 class App extends React.Component<any, any> {
@@ -16,6 +17,7 @@ class App extends React.Component<any, any> {
       <div className="container">
         <div className="row">
           <div className="col-md-8">
+            <RoleInfo />
             <RevealContainer />
             <Header />
             <ParticipantListContainer />

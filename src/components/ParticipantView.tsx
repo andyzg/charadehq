@@ -30,7 +30,7 @@ class ParticipantView extends React.Component<any, any> {
     let statusBar = null;
     if (this.props.participant.status) {
       statusBar = (
-        <div className='participant-view__status'>
+        <div className={'participant-view__status' + (isMe ? ' button-primary' : '')}>
           {this.props.participant.status}
         </div>
       );
@@ -48,13 +48,16 @@ class ParticipantView extends React.Component<any, any> {
     }
 
     return (
-      <div onClick={this.handleClick} className="participant-view">
+      <div className="participant-view">
         {statusBar}
         <div className="participant-view__row">
           <div className="participant-view__avatar" style={style}>
           </div>
           <span className="participant-view__name">{(isMe ? '(You) ' : '') + this.props.participant.name}</span>
           </div>
+          {!isMe ? (<div onClick={this.handleClick} className={'button-small button-primary participant-view__vote-button'}>
+            Vote
+          </div>) : null}
           {votes.length > 0 ? <span className="participant-view__votes-title">Votes:</span> : null}
           <div className="participant-view__voted-box">
 

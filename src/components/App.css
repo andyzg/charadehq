@@ -18,6 +18,18 @@
   transition: .2s all ease;
 }
 
+.button-small {
+  border: none;
+  border-radius: 2px;
+  padding: 4px 8px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
 .button:focus {
   outline: none;
 }

@@ -2,6 +2,7 @@ var client = require('./redis-client').getClient();
 var db = require('./db')(client);
 var fakerdb = require('./faker-db')(client);
 var faker = require('./game/faker');
+var gameUtil = require('./game-util');
 
 module.exports = {
   init: (io) => {
@@ -15,7 +16,7 @@ module.exports = {
       function onDisconnect() {
         console.log('user disconnected');
         db.deleteConnection(socket.id);
-        refreshParticipants(r);
+        gameUtil.refreshParticipants(r);
 
         socket.disconnect();
       }
@@ -30,17 +31,9 @@ module.exports = {
         });
       }
 
-      function getRoomSockets() {
-        let room = io.sockets.adapter.rooms[r]
-        if (room) {
-          return Object.keys(room.sockets)
-        }
-        return []
-      }
-
       function getParticipants(socketId) {
-        db.getUUIDs(getRoomSockets(), (err, uuids) => {
-          socket.emit('get-participants', getRoomSockets());
+        db.getUUIDs(gameUtil.getRoomSockets(r), (err, uuids) => {
+          socket.emit('get-participants', gameUtil.getRoomSockets(r));
         });
       }
 
@@ -49,7 +42,7 @@ module.exports = {
           return
         }
         db.setName(uuid, name);
-        refreshParticipants(r);
+        gameUtil.refreshParticipants(r);
       }
 
       function setUUID(uuid) {
@@ -62,7 +55,7 @@ module.exports = {
         io.to(r).emit('game-change', nextState);
       }
 
-      function constructParticipants(votes, uuids, names) {
+      function constructParticipants(uuids, names, votes, status) {
         console.log('Construct participants', votes);
         if (uuids.length !== names.length) {
           console.log('constructParticipants WE GOT A PROBLEM!');
@@ -80,25 +73,11 @@ module.exports = {
           data[uuids[i]] = {
             name: names[i],
             uuid: uuids[i],
-            votes: v
+            votes: v,
+            status: (status ? status[uuids[i]] : null)
           };
         }
         return data
-      }
-
-      function refreshParticipants(room) {
-        let socketIds = getRoomSockets()
-
-        db.getUUIDs(socketIds, (err, uuids) => {
-          uuids = uuids.filter(Boolean);
-          db.getParticipantNames(uuids, (err, reply) => {
-            fakerdb.getVotes(room, (err, votes) => {
-              if (uuids && reply) {
-                io.to(r).emit('refresh-participants', constructParticipants(votes, uuids, reply));
-              }
-            });
-          });
-        });
       }
 
       function onSubmitAnswer(data) {
@@ -109,12 +88,12 @@ module.exports = {
       function onVote(data) {
         console.log('On vote', data);
         fakerdb.addVote(data.room, data.source, data.target);
-        refreshParticipants(data.room);
+        gameUtil.refreshParticipants(data.room);
       }
 
       socket.join(r, (err) => {
         if (err) { console.log(err); }
-        refreshParticipants(r);
+        gameUtil.refreshParticipants(r);
 
         // Connection handling
         console.log(socket.id, 'connected to ', r);
