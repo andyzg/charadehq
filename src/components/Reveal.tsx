@@ -16,9 +16,23 @@ class Reveal extends React.Component<any, any> {
       return null;
     }
 
+    let outcomeText = null
+    if (this.props.data.win) {
+      outcomeText = (
+        <div>
+          The real people have won!
+        </div>
+      );
+    } else {
+      outcomeText = (
+        <div>
+        The fakers won!
+        </div>
+      );
+    }
     return (
       <div className="reveal">
-
+        {outcomeText}
       </div>
     );
   }

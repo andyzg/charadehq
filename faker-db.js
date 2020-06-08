@@ -6,6 +6,7 @@ let db = require('./db')(client);
 const ROOM_TO_FAKERS_PREFIX = 'room-to-fakers';
 const UUID_TO_ANSWER_PREFIX = 'uuid-to-answer';
 const UUID_TO_VOTE_PREFIX = 'uuid-to-vote';
+const ROOM_TO_ROUND = 'room-to-round'
 
 module.exports = function(client) {
 
@@ -17,6 +18,9 @@ module.exports = function(client) {
 
   // UUID to answer, prefixed with room id
   let UUID_TO_VOTE_PREFIX_KEY = DEV_PREFIX + UUID_TO_VOTE_PREFIX;
+
+  // UUID to answer, prefixed with room id
+  let ROOM_TO_ROUND_KEY = DEV_PREFIX + ROOM_TO_ROUND;
 
   function getRandom(array, n) {
     // Shuffle array
@@ -69,6 +73,14 @@ module.exports = function(client) {
     client.del(UUID_TO_VOTE_PREFIX_KEY + r);
   }
 
+  function setRound(room, round, cb) {
+    client.hmset(ROOM_TO_ROUND_KEY, room, round, cb);
+  }
+
+  function getRound(room, cb) {
+    client.hget(ROOM_TO_ROUND_KEY, room, cb);
+  }
+
   return {
     addFakers,
     getFakers,
@@ -78,6 +90,8 @@ module.exports = function(client) {
     flushAnswers,
     addVote,
     getVotes,
-    flushVotes
+    flushVotes,
+    setRound,
+    getRound
   }
 }

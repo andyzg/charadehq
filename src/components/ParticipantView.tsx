@@ -2,6 +2,7 @@ import React from 'react'
 import profile from '../util/profile'
 import { connect } from 'react-redux'
 import { setName } from '../actions/index'
+import { VOTE } from '../models/FakerState'
 import './ParticipantView.css'
 
 class ParticipantView extends React.Component<any, any> {
@@ -55,7 +56,7 @@ class ParticipantView extends React.Component<any, any> {
           </div>
           <span className="participant-view__name">{(isMe ? '(You) ' : '') + this.props.participant.name}</span>
           </div>
-          {!isMe ? (<div onClick={this.handleClick} className={'button-small button-primary participant-view__vote-button'}>
+          {(!isMe && this.props.gameState === VOTE) ? (<div onClick={this.handleClick} className={'button-small button-primary participant-view__vote-button'}>
             Vote
           </div>) : null}
           {votes.length > 0 ? <span className="participant-view__votes-title">Votes:</span> : null}

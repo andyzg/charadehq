@@ -71,6 +71,9 @@ function setupTimer(room, seconds, cb) {
 
 function startGame(data) {
   createRoles(data.room, 1);
+  fakerdb.flushAnswers(data.room);
+  fakerdb.flushVotes(data.room);
+  fakerdb.setRound(data.room, 1);
 
   // Prompt one person to submit a question
   db.getRandomUUID(data.room, (err, uuid) => {
@@ -99,7 +102,8 @@ function startGame(data) {
 
   return {
     ...data,
-    gameState: QUESTION
+    gameState: QUESTION,
+    round: 1
   }
 }
 
@@ -145,31 +149,38 @@ function submitPrompt(data) {
             console.log('Calculating winner: ', fakers, votes);
             let win = fakers.includes(target);
 
-            io.getIo().to(data.room).emit('game-change', {
-              ...data,
-              event: SHOW_VOTE,
-              gameState: REVEAL_VOTES,
-              payload: {
-                votes,
-                win
-              }
-            });
+            fakerdb.getRound(data.room, (err, round) => {
+              // TODO: If past 3 rounds, end the game
+              fakerdb.setRound(data.room, round + 1);
 
-            setTimeout(() => {
-              // Votes are ephemeral, remove once done with
-              fakerdb.flushVotes(data.room);
-              fakerdb.flushAnswers(data.room);
+              // Reveals what are the votes and whether game has ended
               io.getIo().to(data.room).emit('game-change', {
                 ...data,
-                event: null,
-                gameState: QUESTION,
+                event: SHOW_VOTE,
+                gameState: REVEAL_VOTES,
                 payload: {
                   votes,
-                  win
+                  win,
                 }
               });
-              gameUtil.refreshParticipants(data.room);
-            }, 5000);
+
+              // Proceed to the next round
+              setTimeout(() => {
+                // Votes are ephemeral, remove once done with
+                fakerdb.flushVotes(data.room);
+                fakerdb.flushAnswers(data.room);
+                io.getIo().to(data.room).emit('game-change', {
+                  ...data,
+                  event: null,
+                  gameState: QUESTION,
+                  payload: {
+                    votes,
+                    win
+                  }
+                });
+                gameUtil.refreshParticipants(data.room);
+              }, 5000);
+            });
           });
         });
       });

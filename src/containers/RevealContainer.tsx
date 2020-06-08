@@ -4,7 +4,8 @@ import Reveal from '../components/Reveal'
 import { REVEAL_VOTES } from '../models/FakerState'
 
 const mapStateToProps = (state, ownProps) => ({
-  show: state.faker.gameState === REVEAL_VOTES
+  show: state.faker.gameState === REVEAL_VOTES,
+  data: state.faker.payload
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
