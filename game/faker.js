@@ -8,6 +8,7 @@ const ACTION_START_GAME = 'ACTION_FAKER_START_GAME'
 const ACTION_SUBMIT_PROMPT = 'ACTION_SUBMIT_PROMPT'
 
 // Events
+const WRITE_ANSWER = 'EVENT_WRITE_ANSWER'
 const START_VOTE = 'EVENT_START_VOTE'
 const SHOW_VOTE = 'EVENT_SHOW_VOTE'
 
@@ -22,9 +23,10 @@ const REVEAL_VOTES = 'STATE_REVEAL_VOTES'
 const REVEAL_WINNERS = 'STATE_REVEAL_WINNERS'
 const END = 'STATE_END'
 
-function createRoles(room, num) {
+function createRoles(room, num, cb) {
   fakerdb.flushFakers(room, (err, resp) => {
     fakerdb.addFakers(room, num, (err, fakers) => {
+      cb();
       // Assign all of the faker roles to socket ids
       for (let f of fakers) {
         db.getSocketIds(f, (err, socketIds) => {
@@ -56,6 +58,55 @@ function createRoles(room, num) {
   });
 }
 
+function sendQuestions(data) {
+  let room = data.room
+  let realPayload =  {
+    ...data,
+    event: WRITE_ANSWER,
+    gameState: ANSWER,
+    round: 1,
+    payload: {
+      message: 'How many times did you shit today?',
+      datetime: new Date(),
+      messageUUID: gameUtil.createUUID(),
+      type: 'GAME_STATUS'
+    }
+  }
+  let fakePayload = {
+    ...realPayload,
+    payload: {
+      ...realPayload.payload,
+      message: 'Put a number between 1 to 10'
+    }
+  }
+
+  fakerdb.getFakers(room, (err, fakers) => {
+    console.log('Fakers: ', fakers);
+    db.getRoomUUIDs(room, (err, uuids) => {
+      for (let i of uuids) {
+        if (fakers.includes(i)) {
+          // Don't send them the question
+          db.getSocketIds(i, (err, socketIds) => {
+            for (let s of socketIds) {
+              console.log('Fake payload:', fakePayload);
+              io.getIo().to(s).emit('game-change', fakePayload);
+            }
+          });
+
+        } else {
+          // Send them the question
+          db.getSocketIds(i, (err, socketIds) => {
+            for (let s of socketIds) {
+              console.log(realPayload);
+              io.getIo().to(s).emit('game-change', realPayload);
+            }
+          });
+        }
+      }
+    });
+  });
+}
+
 function setupTimer(room, seconds, cb) {
   let secondsRemaining = seconds
   let interval = setInterval(() => {
@@ -70,45 +121,12 @@ function setupTimer(room, seconds, cb) {
 }
 
 function startGame(data) {
-  createRoles(data.room, 1);
+  createRoles(data.room, 1, () => {
+    sendQuestions(data);
+  });
   fakerdb.flushAnswers(data.room);
   fakerdb.flushVotes(data.room);
   fakerdb.setRound(data.room, 1);
-
-  // Prompt one person to submit a question
-  db.getRandomUUID(data.room, (err, uuid) => {
-    db.getName(uuid, (err, name) => {
-      let message = {
-        // TODO: Add examples
-        source: uuid,
-        name: name,
-        datetime: new Date(),
-        message: name + ' is writing a prompt',
-        type: 'STATUS'
-      };
-
-      // Send to everyone
-      db.getRoomUUIDs(data.room, (err, uuids) => {
-        for (let i of uuids) {
-          db.getSocketIds(i, (err, socketId) => {
-            for (let i of socketId) {
-              io.getIo().to(i).emit('faker-prompt-question', message);
-            }
-          });
-        }
-      });
-    });
-  });
-
-  return {
-    ...data,
-    gameState: QUESTION,
-    round: 1
-  }
-}
-
-function submitPrompt(data) {
-  console.log('Submit prompt: ', data);
 
   setupTimer(data.room, 5, () => {
     fakerdb.getAnswers(data.room, (err, resp) => {
@@ -141,6 +159,7 @@ function submitPrompt(data) {
               console.log('ERROR!!!! NO ONE VOTED');
               return;
             }
+
             // Get the key with most votes
             // TODO: Fix when there are no votes
             // TODO: This assumes that there's only one faker
@@ -171,8 +190,8 @@ function submitPrompt(data) {
                 fakerdb.flushAnswers(data.room);
                 io.getIo().to(data.room).emit('game-change', {
                   ...data,
-                  event: null,
-                  gameState: QUESTION,
+                  event: WRITE_ANSWER,
+                  gameState: ANSWER,
                   payload: {
                     votes,
                     win
@@ -187,11 +206,6 @@ function submitPrompt(data) {
     });
   });
 
-  return {
-    ...data,
-    gameState: ANSWER,
-    payload: data.payload
-  };
 }
 
 module.exports = {
@@ -208,8 +222,6 @@ module.exports = {
       case ACTION_START_GAME:
         console.log('Start game');
         return startGame(state);
-      case ACTION_SUBMIT_PROMPT:
-        return submitPrompt(state);
       default:
         return state;
     }

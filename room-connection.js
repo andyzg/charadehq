@@ -52,32 +52,7 @@ module.exports = {
       function onGameChange(state) {
         let nextState = faker.onGameChange(state);
         console.log('Next state:', nextState);
-        io.to(r).emit('game-change', nextState);
-      }
-
-      function constructParticipants(uuids, names, votes, status) {
-        console.log('Construct participants', votes);
-        if (uuids.length !== names.length) {
-          console.log('constructParticipants WE GOT A PROBLEM!');
-        }
-
-        let data = {}
-        for (let i = 0; i < uuids.length; i++) {
-          let v = {}
-          for (let j in votes) {
-            if (votes[j] === uuids[i]) {
-              v[j] = true
-            }
-          }
-
-          data[uuids[i]] = {
-            name: names[i],
-            uuid: uuids[i],
-            votes: v,
-            status: (status ? status[uuids[i]] : null)
-          };
-        }
-        return data
+        // io.to(r).emit('game-change', nextState);
       }
 
       function onSubmitAnswer(data) {

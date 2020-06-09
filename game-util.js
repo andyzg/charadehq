@@ -4,7 +4,6 @@ var fakerdb = require('./faker-db')(client);
 var io = require('./socket-connection');
 
 function constructParticipants(uuids, names, votes, status) {
-  console.log('Construct participants', votes);
   if (uuids.length !== names.length) {
     console.log('constructParticipants WE GOT A PROBLEM!');
   }
@@ -53,7 +52,18 @@ function refreshParticipants(room) {
   });
 }
 
+function createUUID() {
+    var dt = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (dt + Math.random()*16)%16 | 0;
+        dt = Math.floor(dt/16);
+        return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+    });
+    return uuid;
+}
+
 module.exports = {
   getRoomSockets,
-  refreshParticipants
+  refreshParticipants,
+  createUUID
 }

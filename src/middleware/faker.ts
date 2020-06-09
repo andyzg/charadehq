@@ -1,7 +1,7 @@
 import faker from '../util/faker'
 import { SET_VOTE, START_GAME, SET_USER_STATE, SET_STATE, setQuestion } from '../actions/faker'
 import { setPayload, SET_PAYLOAD, showRoleInfo, SUBMIT_PROMPT, setUserStatus, SUBMIT_ANSWER } from '../actions/index'
-import { SHOW_VOTE, SHOW_ROLE } from '../models/FakerState'
+import { SHOW_VOTE, SHOW_ROLE, WRITE_ANSWER } from '../models/FakerState'
 import profile from '../util/profile'
 import uuidUtil from '../util/uuid'
 
@@ -19,9 +19,10 @@ export default store => next => action => {
         console.log('Set state: ', action.data);
         switch (action.data.event) {
           case START_GAME:
-            store.dispatch(showRoleInfo())
-            break;
-          case SUBMIT_PROMPT:
+          case WRITE_ANSWER:
+            if (action.data.round <= 1) {
+              store.dispatch(showRoleInfo())
+            }
             console.log('Submit prompt payload: ', action.data.payload);
             store.dispatch(setQuestion(action.data.payload.message))
             break;

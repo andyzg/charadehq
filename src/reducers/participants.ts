@@ -8,26 +8,20 @@ const participants = (state: any[] = [], action) => {
   let newState = {}
   switch (action.type) {
     case REFRESH_PARTICIPANTS:
-      // for (let i in action.participants) {
-      //   if (!state[i]) {
-      //     continue;
-      //   }
-      //   newState[i] = {
-      //     ...state[i],
-      //     ...action.participants[i]
-      //   }
-      // }
       return action.participants;
     case SET_ALL_STATUS:
-      console.log(action);
       for (let i in state) {
         if (!action.data[i]) {
           console.log('Missing UUID in participants in its reducer', i);
+          newState[state[i].uuid] = {
+            ...state[i]
+          };
+        } else {
+          newState[state[i].uuid] = {
+            ...state[i],
+            status: action.data[i]
+          };
         }
-        newState[state[i].uuid] = {
-          ...state[i],
-          status: action.data[i]
-        };
       }
       return newState
     case SUBMIT_ANSWER:

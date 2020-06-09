@@ -48,15 +48,7 @@ socket.on('connect', () => {
   });
 
   socket.on('faker-vote', ({source, target}) => {
-
-  });
-
-  socket.on('faker-prompt-question', (data) => {
-    console.log('Faker prompt', data.source, profile.getUUID());
-    if (data.source === profile.getUUID()) {
-      store.dispatch(showPrompt(data));
-    }
-    store.dispatch(setUserStatus(data));
+    console.log('Faker vote???. Nothing is happening from this TODO');
   });
 });
 

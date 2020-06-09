@@ -10,6 +10,7 @@ export const REVEAL_WINNERES = 'STATE_REVEAL_WINNERS'
 export const END = 'STATE_END'
 
 // Events
+export const WRITE_ANSWER = 'EVENT_WRITE_ANSWER'
 export const START_VOTE = 'EVENT_START_VOTE'
 export const SHOW_VOTE = 'EVENT_SHOW_VOTE'
 
