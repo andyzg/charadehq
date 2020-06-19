@@ -5,5 +5,15 @@
   right: 0;
   bottom: 0;
   background-color: #FFD9DC;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   z-index: 10000;
+  padding: 32px;
+}
+
+.reveal__text {
+  font-size: 32px;
+  text-align: center;
+  font-weight: 700;
 }

@@ -21,14 +21,14 @@ class Reveal extends React.Component<any, any> {
       if (this.props.isFaker) {
         // Is faker and lost
         outcomeText = (
-          <div>
+          <div className="reveal__text">
             They figured you out!
           </div>
         );
       } else {
         // Real person and won
         outcomeText = (
-          <div>
+          <div className="reveal__text">
           The real ones figured out the faker!
           </div>
         );
@@ -37,14 +37,14 @@ class Reveal extends React.Component<any, any> {
       if (this.props.isFaker) {
         // Faker won
         outcomeText = (
-          <div>
+          <div className="reveal__text">
             You won! Your friends couldn't figure you out!
           </div>
         );
       } else {
         // Real person and lost
         outcomeText = (
-          <div>
+          <div className="reveal__text">
             The faker got away!
           </div>
         );

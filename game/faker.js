@@ -88,7 +88,6 @@ function sendQuestions(data) {
           // Don't send them the question
           db.getSocketIds(i, (err, socketIds) => {
             for (let s of socketIds) {
-              console.log('Fake payload:', fakePayload);
               io.getIo().to(s).emit('game-change', fakePayload);
             }
           });
@@ -97,7 +96,6 @@ function sendQuestions(data) {
           // Send them the question
           db.getSocketIds(i, (err, socketIds) => {
             for (let s of socketIds) {
-              console.log(realPayload);
               io.getIo().to(s).emit('game-change', realPayload);
             }
           });
@@ -164,8 +162,6 @@ function startGame(data) {
             // TODO: Fix when there are no votes
             // TODO: This assumes that there's only one faker
             let target = Object.keys(voteCounter).reduce((a, b) => voteCounter[a] > voteCounter[b] ? a : b);
-            console.log('Vote counter: ', voteCounter, target);
-            console.log('Calculating winner: ', fakers, votes);
             let win = fakers.includes(target);
 
             fakerdb.getRound(data.room, (err, round) => {
@@ -198,7 +194,7 @@ function startGame(data) {
                   }
                 });
                 gameUtil.refreshParticipants(data.room);
-              }, 5000);
+              }, 10000);
             });
           });
         });
